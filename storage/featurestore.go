@@ -6,10 +6,10 @@ type Properties map[string]string
 
 type Feature struct {
 	name       string
-	properties Properties
+	enabled    bool
 	created    time.Time
 	expires    time.Time
-	enabled    bool
+	properties Properties
 }
 
 type Filter map[string]string
