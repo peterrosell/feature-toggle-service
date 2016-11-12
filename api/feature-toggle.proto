@@ -1,0 +1,71 @@
+syntax = "proto3";
+package feature_toggle_api;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service FeatureToggleService {
+    rpc CreateFeature(CreateFeatureRequest) returns (CreateFeatureResponse) {
+        option (google.api.http) = { post: "/feature" body:"*" };
+    }
+    rpc ReadFeature(ReadFeatureRequest) returns (ReadFeatureResponse) {
+        option (google.api.http) = { get: "/feature/{id}" };
+    }
+    rpc DeleteFeature(DeleteFeatureRequest) returns (DeleteFeatureResponse) {
+        option (google.api.http) = { delete: "/feature/{id}" };
+    }
+    rpc SearchFeature(SearchFeatureRequest) returns (SearchFeatureResponse) {
+        option (google.api.http) = { get: "/feature" };
+    }
+}
+
+message CreateFeatureRequest {
+    Feature Feature = 1;
+}
+
+message CreateFeatureResponse {
+    Feature Feature = 1;
+}
+
+message ReadFeatureRequest {
+    string id = 1;
+}
+
+message ReadFeatureResponse {
+    Feature Feature = 1;
+}
+
+message DeleteFeatureRequest {
+    string id = 1;
+}
+
+message DeleteFeatureResponse {
+}
+
+message SearchFeatureRequest {
+    message FilterMessage {
+        string name = 1;
+        bool enabled = 2;
+        google.protobuf.Timestamp createdStart = 3;
+        google.protobuf.Timestamp createdEnd = 4;
+        google.protobuf.Timestamp expiresStart = 5;
+        google.protobuf.Timestamp  expiresEnd = 6;
+        map<string,string> properties = 7;
+    }
+    FilterMessage filter = 1;
+}
+
+message SearchFeatureResponse {
+    repeated Feature Features = 1;
+}
+
+message Feature {
+    string id = 1;
+    string name = 2;
+    bool enabled = 3;
+    google.protobuf.Timestamp created = 4;
+    google.protobuf.Timestamp expires = 5;
+    map<string,string> properties = 6;
+}
+
+

@@ -1,4 +1,4 @@
-package api
+package feature_toggle_api
 
 type Properties map[string]string
 

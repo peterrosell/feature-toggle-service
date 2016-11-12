@@ -1,0 +1,241 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/feature-toggle.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/feature": {
+      "get": {
+        "operationId": "SearchFeature",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiSearchFeatureResponse"
+            }
+          }
+        },
+        "tags": [
+          "FeatureToggleService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateFeature",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiCreateFeatureResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiCreateFeatureRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      }
+    },
+    "/feature/{id}": {
+      "get": {
+        "operationId": "ReadFeature",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiReadFeatureResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteFeature",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiDeleteFeatureResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "SearchFeatureRequestFilterMessage": {
+      "type": "object",
+      "properties": {
+        "createdEnd": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdStart": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "enabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "expiresEnd": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expiresStart": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "feature_toggle_apiCreateFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "Feature": {
+          "$ref": "#/definitions/feature_toggle_apiFeature"
+        }
+      }
+    },
+    "feature_toggle_apiCreateFeatureResponse": {
+      "type": "object",
+      "properties": {
+        "Feature": {
+          "$ref": "#/definitions/feature_toggle_apiFeature"
+        }
+      }
+    },
+    "feature_toggle_apiDeleteFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiDeleteFeatureResponse": {
+      "type": "object"
+    },
+    "feature_toggle_apiFeature": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "enabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "feature_toggle_apiReadFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiReadFeatureResponse": {
+      "type": "object",
+      "properties": {
+        "Feature": {
+          "$ref": "#/definitions/feature_toggle_apiFeature"
+        }
+      }
+    },
+    "feature_toggle_apiSearchFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "filter": {
+          "$ref": "#/definitions/SearchFeatureRequestFilterMessage"
+        }
+      }
+    },
+    "feature_toggle_apiSearchFeatureResponse": {
+      "type": "object",
+      "properties": {
+        "Features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/feature_toggle_apiFeature"
+          }
+        }
+      }
+    }
+  }
+}
