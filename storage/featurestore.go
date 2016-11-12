@@ -1,10 +1,15 @@
 package storage
 
+import "time"
+
 type Properties map[string]string
 
 type Feature struct {
 	name       string
 	properties Properties
+	created    time.Time
+	expires    time.Time
+	enabled    bool
 }
 
 type Filter map[string]string

@@ -3,18 +3,20 @@ package storage
 import (
 	"database/sql"
 	"fmt"
+	"time"
 	"bytes"
 	_ "github.com/lib/pq"
+	"github.com/pkg/errors"
 )
 
 /**
 CREATE TABLE feature_properties
 (
-    id NOT NULL,
-    name NOT NULL,
+    id text NOT NULL,
+    name text NOT NULL,
     property text NOT NULL,
     value text NOT NULL,
-    created date,
+    created datetime,
     expires date,
     CONSTRAINT feature_pkey PRIMARY KEY (id),
     CONSTRAINT feature_unique UNIQUE (name,property)
@@ -30,9 +32,7 @@ const (
 )
 
 const (
-	INSERT_FEATURE_PROPERTY_SQL = "INSERT INTO feature_properties(id, name, property, value, created) values($1,$2,$3,$4,$5) returning created;"
-	DELETE_FEATURE_SQL = "DELETE FROM feature_properties WHERE name=$1"
-	SEARCH_FEATURE_SQL = "SELECT FROM feature_properties WHERE property=$1"
+	INSERT_FEATURE_PROPERTY_SQL = "INSERT INTO feature_properties(name, property, value, created, expires, enabled) values ($1,$2,$3,$4,$5,$6)"
 )
 
 type FeatureStoreImpl struct {
@@ -57,97 +57,173 @@ func (fs *FeatureStoreImpl) Close() {
 	fs.db.Close()
 }
 
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
+func (fs *FeatureStoreImpl) CreateFeature(feature Feature) (*string, error) {
+	created := time.Now()
+
+	tx, err := fs.db.Begin()
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to create trasaction, %v", err))
 	}
+	defer tx.Rollback()
+
+	stmt, err := fs.db.Prepare(INSERT_FEATURE_PROPERTY_SQL)
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to create prepared statement, %v", err))
+	}
+	defer stmt.Close()
+
+	for property, value := range feature.properties {
+		_, err := stmt.Exec(feature.name, property, value, created, feature.expires, feature.enabled)
+		if ( err != nil) {
+			return nil, errors.New(fmt.Sprintf("Failed to insert row with property '%s', %v", property, err))
+		}
+		/*
+		rowsAffected, err := res.RowsAffected()
+		if ( err != nil) {
+			return nil, errors.New(fmt.Sprintf("Failed to get rows affected for property '%s', %v", property, err))
+		}
+		fmt.Printf("%v\n", rowsAffected)
+		*/
+	}
+	tx.Commit()
+
+	return &(feature.name), nil
 }
 
-func (*FeatureStoreImpl) CreateFeature(feature Feature) string {
-	/*
-	db, err := sql.Open("postgres", dbinfo)
-	db.Begin()
-	db.Prepare("update userinfo set username=$1 where uid=$2")
-
-	feature.name
-	feature.properties
-
-	err = db.QueryRow(INSERT_FEATURE_PROPERTY_SQL, "astaxie", "研发部门", "2012-12-09").Scan(&lastInsertId)
-	checkErr(err)
-	*/
-	return ""
-}
-
-func (*FeatureStoreImpl) ReadFeature(id string) Feature {
-	return Feature{}
-}
-
-func (*FeatureStoreImpl) DeleteFeature(id string) bool {
-	return false
-}
-
-func (fs *FeatureStoreImpl) SearchFeature(name string, filter Filter) []Feature {
+func (fs *FeatureStoreImpl) ReadFeature(name string) (*Feature, error) {
 	var buffer bytes.Buffer
 
 	SEARCH_SELECT_PART := "SELECT DISTINCT feature_properties.* FROM feature_properties "
-	SEARCH_WHERE_PART := "WHERE feature_properties.name = $1 "
+	SEARCH_WHERE_PART := "WHERE feature_properties.name = $1"
+
+	buffer.WriteString(SEARCH_SELECT_PART)
+	buffer.WriteString(SEARCH_WHERE_PART)
+
+	stmt, err := fs.db.Prepare(buffer.String())
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to create prepared statement, %v", err))
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query(name)
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to run query, %v", err))
+	}
+	defer rows.Close()
+
+	features, err := rowsToFeatures(rows)
+	if err != nil {
+		return nil, errors.New(fmt.Sprintf("Failed to get row data, %v", err))
+	}
+	if len(features) > 0 {
+		return &features[0], nil
+	}
+	return nil, nil
+
+}
+
+func (fs *FeatureStoreImpl) DeleteFeature(name string) (*bool, error) {
+
+	DELETE_SQL := "DELETE FROM feature_properties WHERE feature_properties.name = $1"
+
+	stmt, err := fs.db.Prepare(DELETE_SQL)
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to create delete prepared statement, %v", err))
+	}
+	defer stmt.Close()
+
+	res, err := stmt.Exec(name)
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to delete feature, %v", err))
+	}
+	rowCount, err := res.RowsAffected()
+	if err != nil {
+		return nil, errors.New(fmt.Sprintf("Failed to get rowsAffected, %v", err))
+	}
+	b := rowCount > 0
+	return &b, nil
+}
+
+func (fs *FeatureStoreImpl) SearchFeature(name *string, filter Filter) ([]Feature, error) {
+	var buffer bytes.Buffer
+
+	SEARCH_SELECT_PART := "SELECT DISTINCT feature_properties.* FROM feature_properties "
+	SEARCH_NAME_PART := "feature_properties.name = $1 "
 
 	buffer.WriteString(SEARCH_SELECT_PART)
 	for i := 0; i < len(filter); i++ {
 		buffer.WriteString(getInnerJoinLine(i))
 	}
-	buffer.WriteString(SEARCH_WHERE_PART)
-	i := 0
-	for k, v := range filter {
-		buffer.WriteString(getPropertyFilterLine(i, k, v))
-		i++
+
+	buffer.WriteString("WHERE ")
+	if ( name != nil) {
+		buffer.WriteString(SEARCH_NAME_PART)
+	}
+
+	var offset int
+	if ( name == nil) {
+		offset = 1
+	} else {
+		offset = 2
+	}
+	for i := 0; i < len(filter); i++ {
+		skipStartingAnd := i == 0 && name == nil
+
+		buffer.WriteString(getPropertyFilterLine(i, skipStartingAnd, offset))
 	}
 
 	searchQuery := buffer.String()
-	//fmt.Println(searchQuery)
+	fmt.Println(searchQuery)
 
 	stmt, err := fs.db.Prepare(searchQuery)
-	checkErr(err)
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to create prepared statement, %v", err))
+	}
 	defer stmt.Close()
 
-	params := getParams(name, filter)
-	//params := make([]interface{}, len(filter)*2+1)
+	params := getParams(name, &filter)
 	rows, err := stmt.Query(params...)
-	checkErr(err)
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("Failed to run query, %v", err))
+	}
 	defer rows.Close()
 
-	return rowsToFeatures(rows)
-
-	//INNER JOIN feature_properties AS p1 ON feature_properties.name = p1.name
-	//INNER JOIN feature_properties AS p2 ON feature_properties.name = p2.name
-	//and (p1.property='prop1' and p1.value = 'val1')
-	//and (p2.property='prop2' and p2.value = 'val2')
-	//;"
+	res, err := rowsToFeatures(rows)
+	if( err != nil) {
+		return nil, err
+	}
+	return res, nil
 }
-func getParams(name string, filters Filter) []interface{} {
-	params := make([]interface{}, 1)
-	params[0] = name
-	for propertyName, propertyValue := range filters {
-		params = append(params, propertyName, propertyValue)
+
+func getParams(name *string, filters *Filter) []interface{} {
+	params := make([]interface{}, 0)
+	if name != nil {
+		params = append(params, name)
+	}
+	if ( filters != nil) {
+		for propertyName, propertyValue := range *filters {
+			params = append(params, propertyName, propertyValue)
+		}
 	}
 	return params
 }
 
-func rowsToFeatures(rows *sql.Rows) []Feature {
+func rowsToFeatures(rows *sql.Rows) ([]Feature, error) {
 	featureMap := make(map[string]Feature)
 	for rows.Next() {
-		var id string
 		var name string
 		var property string
 		var value string
 		var created string
 		var expires string
-		err := rows.Scan(&id, &name, &property, &value, &created, &expires)
-		checkErr(err)
+		var enabled bool
+		err := rows.Scan(&name, &property, &value, &created, &expires, &enabled)
+		if ( err != nil) {
+			return nil, errors.New(fmt.Sprintf("Failed to scan row, %v", err))
+		}
 		feature, ok := featureMap[name]
 		if !ok {
 			props := make(Properties)
-			//props[property] = value
 			feature = Feature{name:name, properties:props}
 			featureMap[name] = feature
 		}
@@ -158,13 +234,19 @@ func rowsToFeatures(rows *sql.Rows) []Feature {
 	for _, feature := range featureMap {
 		result = append(result, feature)
 	}
-	return result
+	return result, nil
 }
 
-func getPropertyFilterLine(i int, property string, value string) string {
-	//and (p1.property='prop1' and p1.value = 'val1')
-	SEARCH_FILTER_PART := "AND (p%d.property=$%d AND p%d.value = $%d)"
-	return fmt.Sprintf(SEARCH_FILTER_PART, i, 2 + i * 2, i, 3 + i * 2)
+func getPropertyFilterLine(i int, skipStartingAnd bool, offset int) string {
+
+	SEARCH_FILTER_PART := "%s(p%d.property=$%d AND p%d.value = $%d) "
+	var prefix string
+	if ( skipStartingAnd) {
+		prefix = ""
+	} else {
+		prefix = "AND"
+	}
+	return fmt.Sprintf(SEARCH_FILTER_PART, prefix, i, offset + i * 2, i, offset + 1 + i * 2)
 }
 
 func getInnerJoinLine(i int) string {
