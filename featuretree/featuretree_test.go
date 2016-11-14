@@ -42,7 +42,7 @@ func TestAddFeature_leaf(t *testing.T) {
 	props := Properties{}
 	props[propertyName] = propertyValue
 
-	feature := Feature{featureName, props}
+	feature := ToggleRule{featureName, props}
 
 	node.addFeature([]string{}, feature)
 
@@ -59,9 +59,9 @@ func TestAddFeature_simple(t *testing.T) {
 	props := Properties{}
 	props[propertyName] = propertyValue
 
-	feature := Feature{"feature 1", props}
+	feature := ToggleRule{"feature 1", props}
 
-	tree.addFeature(feature)
+	tree.AddFeature(feature)
 
 	assert.Equal(t, []string{propertyName}, tree.propertyNames, "should find property " + propertyName + " on tree")
 
@@ -84,9 +84,9 @@ func TestAddFeature_2_props__1_feature_prop(t *testing.T) {
 	props := Properties{}
 	props[property1Name] = propertyValue
 
-	feature := Feature{"feature 1", props}
+	feature := ToggleRule{"feature 1", props}
 
-	tree.addFeature(feature)
+	tree.AddFeature(feature)
 
 	assert.Equal(t, propertyNames, tree.propertyNames, "should find value 'username' and 'usertype' on tree")
 
@@ -112,9 +112,9 @@ func TestAddFeature_3_props__1_feature_prop(t *testing.T) {
 	props := Properties{}
 	props[property1Name] = propertyValue
 
-	feature := Feature{"feature 1", props}
+	feature := ToggleRule{"feature 1", props}
 
-	tree.addFeature(feature)
+	tree.AddFeature(feature)
 
 	assert.Equal(t, propertyNames, tree.propertyNames, "should find value 'username' and 'usertype' on tree")
 
@@ -145,13 +145,13 @@ func TestAddFeature_3_props__2_feature_prop(t *testing.T) {
 
 	props := Properties{}
 	props[property1Name] = property1Value
-	feature := Feature{featureName1, props}
-	tree.addFeature(feature)
+	feature := ToggleRule{featureName1, props}
+	tree.AddFeature(feature)
 
 	props2 := Properties{}
 	props2[property1Name] = property1Value2
-	feature2 := Feature{featureName2, props2}
-	tree.addFeature(feature2)
+	feature2 := ToggleRule{featureName2, props2}
+	tree.AddFeature(feature2)
 
 	assert.Equal(t, propertyNames, tree.propertyNames, "should find value 'username' and 'usertype' on tree")
 
@@ -190,14 +190,14 @@ func TestAddFeature_3_props__3_feature_prop(t *testing.T) {
 
 	props := Properties{}
 	props[property1Name] = property1Value
-	feature := Feature{featureName1, props}
-	tree.addFeature(feature)
+	feature := ToggleRule{featureName1, props}
+	tree.AddFeature(feature)
 
 	props2 := Properties{}
 	props2[property1Name] = property1Value
 	props2[property2Name] = property2Value2
-	feature2 := Feature{featureName2, props2}
-	tree.addFeature(feature2)
+	feature2 := ToggleRule{featureName2, props2}
+	tree.AddFeature(feature2)
 
 	assert.Equal(t, propertyNames, tree.propertyNames, "should find value 'username' and 'usertype' on tree")
 
@@ -228,7 +228,7 @@ func TestFindFeatures(t *testing.T) {
 	properties := Properties{}
 	properties["username"] = "adam"
 
-	features := tree.findFeatures(properties)
+	features := tree.FindFeatures(properties)
 
 	assert.True(t, contains(features, featureName1), "Found features should contain '" + featureName1 + "'")
 
@@ -241,7 +241,7 @@ func TestFindFeatures_beta(t *testing.T) {
 	properties := Properties{}
 	properties["usertype"] = "beta"
 
-	features := tree.findFeatures(properties)
+	features := tree.FindFeatures(properties)
 
 	assert.Equal(t, 0, len(features), "No features should be found for only usertype=beta")
 
@@ -258,13 +258,13 @@ func TestFindFeatures_adam_beta(t *testing.T) {
 	properties["username"] = "adam"
 	properties["usertype"] = "beta"
 
-	features := tree.findFeatures(properties)
+	features := tree.FindFeatures(properties)
 
 	assert.True(t, contains(features, featureName1), "Found features should contain '" + featureName1 + "'")
 	assert.True(t, contains(features, featureName2), "Found features should contain '" + featureName2 + "'")
 }
 
-func createFeatureTree() *FeatureTree {
+func createFeatureTree() *ToggleRuleTree {
 	property0Name := "userid"
 	property1Name := "username"
 	property2Name := "usertype"
@@ -281,14 +281,14 @@ func createFeatureTree() *FeatureTree {
 
 	props := Properties{}
 	props[property1Name] = property1Value
-	feature := Feature{featureName1, props}
-	tree.addFeature(feature)
+	feature := ToggleRule{featureName1, props}
+	tree.AddFeature(feature)
 
 	props2 := Properties{}
 	props2[property1Name] = property1Value
 	props2[property2Name] = property2Value2
-	feature2 := Feature{featureName2, props2}
-	tree.addFeature(feature2)
+	feature2 := ToggleRule{featureName2, props2}
+	tree.AddFeature(feature2)
 	return tree
 }
 

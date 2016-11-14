@@ -102,10 +102,438 @@
           "FeatureToggleService"
         ]
       }
+    },
+    "/featuretree/features": {
+      "get": {
+        "operationId": "GetFeaturesForProperties",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiGetFeaturesByPropertiesResponse"
+            }
+          }
+        },
+        "tags": [
+          "FeatureToggleService"
+        ]
+      }
+    },
+    "/property": {
+      "get": {
+        "operationId": "SearchProperty",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiSearchPropertyResponse"
+            }
+          }
+        },
+        "tags": [
+          "FeatureToggleService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateProperty",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiCreatePropertyResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiCreatePropertyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      }
+    },
+    "/property/{name}": {
+      "get": {
+        "operationId": "ReadProperty",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiReadPropertyResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteProperty",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiDeletePropertyResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      }
+    },
+    "/togglerule": {
+      "get": {
+        "operationId": "SearchToggleRule",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiSearchToggleRuleResponse"
+            }
+          }
+        },
+        "tags": [
+          "FeatureToggleService"
+        ]
+      },
+      "post": {
+        "operationId": "CreateToggleRule",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiCreateToggleRuleResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiCreateToggleRuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      }
+    },
+    "/togglerule/{id}": {
+      "get": {
+        "operationId": "ReadToggleRule",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiReadToggleRuleResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteToggleRule",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/feature_toggle_apiDeleteToggleRuleResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "FeatureToggleService"
+        ]
+      }
     }
   },
   "definitions": {
-    "SearchFeatureRequestFilterMessage": {
+    "feature_toggle_apiCreateFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "feature": {
+          "$ref": "#/definitions/feature_toggle_apiFeature"
+        }
+      }
+    },
+    "feature_toggle_apiCreateFeatureResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiCreatePropertyRequest": {
+      "type": "object",
+      "properties": {
+        "property": {
+          "$ref": "#/definitions/feature_toggle_apiProperty"
+        }
+      }
+    },
+    "feature_toggle_apiCreatePropertyResponse": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiCreateToggleRuleRequest": {
+      "type": "object",
+      "properties": {
+        "toggleRule": {
+          "$ref": "#/definitions/feature_toggle_apiToggleRule"
+        }
+      }
+    },
+    "feature_toggle_apiCreateToggleRuleResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiDeleteFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiDeleteFeatureResponse": {
+      "type": "object"
+    },
+    "feature_toggle_apiDeletePropertyRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiDeletePropertyResponse": {
+      "type": "object"
+    },
+    "feature_toggle_apiDeleteToggleRuleRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiDeleteToggleRuleResponse": {
+      "type": "object"
+    },
+    "feature_toggle_apiFeature": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "format": "string"
+        },
+        "enabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "id": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiGetFeaturesByPropertiesRequest": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "feature_toggle_apiGetFeaturesByPropertiesResponse": {
+      "type": "object",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    },
+    "feature_toggle_apiProperty": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "format": "string"
+        },
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiReadFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiReadFeatureResponse": {
+      "type": "object",
+      "properties": {
+        "feature": {
+          "$ref": "#/definitions/feature_toggle_apiFeature"
+        }
+      }
+    },
+    "feature_toggle_apiReadPropertyRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiReadPropertyResponse": {
+      "type": "object",
+      "properties": {
+        "Property": {
+          "$ref": "#/definitions/feature_toggle_apiProperty"
+        }
+      }
+    },
+    "feature_toggle_apiReadToggleRuleRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiReadToggleRuleResponse": {
+      "type": "object",
+      "properties": {
+        "toggleRule": {
+          "$ref": "#/definitions/feature_toggle_apiToggleRule"
+        }
+      }
+    },
+    "feature_toggle_apiSearchFeatureRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiSearchFeatureResponse": {
+      "type": "object",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/feature_toggle_apiFeature"
+          }
+        }
+      }
+    },
+    "feature_toggle_apiSearchPropertyRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "feature_toggle_apiSearchPropertyResponse": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/feature_toggle_apiProperty"
+          }
+        }
+      }
+    },
+    "feature_toggle_apiSearchToggleRuleRequest": {
       "type": "object",
       "properties": {
         "createdEnd": {
@@ -141,35 +569,18 @@
         }
       }
     },
-    "feature_toggle_apiCreateFeatureRequest": {
+    "feature_toggle_apiSearchToggleRuleResponse": {
       "type": "object",
       "properties": {
-        "Feature": {
-          "$ref": "#/definitions/feature_toggle_apiFeature"
+        "toggleRules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/feature_toggle_apiToggleRule"
+          }
         }
       }
     },
-    "feature_toggle_apiCreateFeatureResponse": {
-      "type": "object",
-      "properties": {
-        "Feature": {
-          "$ref": "#/definitions/feature_toggle_apiFeature"
-        }
-      }
-    },
-    "feature_toggle_apiDeleteFeatureRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "string"
-        }
-      }
-    },
-    "feature_toggle_apiDeleteFeatureResponse": {
-      "type": "object"
-    },
-    "feature_toggle_apiFeature": {
+    "feature_toggle_apiToggleRule": {
       "type": "object",
       "properties": {
         "created": {
@@ -197,42 +608,6 @@
           "additionalProperties": {
             "type": "string",
             "format": "string"
-          }
-        }
-      }
-    },
-    "feature_toggle_apiReadFeatureRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "string"
-        }
-      }
-    },
-    "feature_toggle_apiReadFeatureResponse": {
-      "type": "object",
-      "properties": {
-        "Feature": {
-          "$ref": "#/definitions/feature_toggle_apiFeature"
-        }
-      }
-    },
-    "feature_toggle_apiSearchFeatureRequest": {
-      "type": "object",
-      "properties": {
-        "filter": {
-          "$ref": "#/definitions/SearchFeatureRequestFilterMessage"
-        }
-      }
-    },
-    "feature_toggle_apiSearchFeatureResponse": {
-      "type": "object",
-      "properties": {
-        "Features": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/feature_toggle_apiFeature"
           }
         }
       }

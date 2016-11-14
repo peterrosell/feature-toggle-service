@@ -1,20 +1,62 @@
 hash: 8e18e64076fe582de81e5aea63fe8bf6ab34a5f3bce4925201df530462a30d63
-updated: 2016-11-10T02:40:36.610395046+01:00
-imports: []
+updated: 2016-11-13T21:39:32.827741275+01:00
+imports:
+- name: github.com/golang/glog
+  version: 23def4e6c14b4da8ac2ed8007337bc5eb5007998
+- name: github.com/golang/protobuf
+  version: 4bd1920723d7b7c925de087aa32e2187708897f7
+  subpackages:
+  - jsonpb
+  - proto
+  - protoc-gen-go/descriptor
+  - ptypes/timestamp
+- name: github.com/grpc-ecosystem/grpc-gateway
+  version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
+  subpackages:
+  - runtime
+  - runtime/internal
+  - third_party/googleapis/google/api
+  - utilities
+- name: github.com/lib/pq
+  version: d8eeeb8bae8896dd8e1b7e514ab0d396c4f12a1b
+  subpackages:
+  - oid
+- name: github.com/pkg/errors
+  version: 248dadf4e9068a0b3e79f02ed0a610d935de5302
+- name: github.com/satori/go.uuid
+  version: b061729afc07e77a8aa4fad0a2fd840958f1942a
+- name: golang.org/x/net
+  version: 0e2717dc3cc05907dc23096ef3a9086ea93f567f
+  subpackages:
+  - context
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - lex/httplex
+  - trace
+- name: google.golang.org/grpc
+  version: 777daa17ff9b5daef1cfdf915088a2ada3332bf0
+  subpackages:
+  - codes
+  - credentials
+  - grpclog
+  - internal
+  - metadata
+  - naming
+  - peer
+  - transport
 testImports:
 - name: github.com/davecgh/go-spew
-  version: 346938d642f2ec3594ed81d874461961cd0faa76
+  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
   subpackages:
   - spew
 - name: github.com/pmezard/go-difflib
-  version: 792786c7400a136282c1664665ae0a8db921c6c2
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:
   - difflib
-- name: github.com/stretchr/objx
-  version: 1a9d0bb9f541897e62256577b352fdbc1fb4fd94
 - name: github.com/stretchr/testify
   version: 976c720a22c8eb4eb6a0b4348ad85ad12491a506
   subpackages:
   - assert
-  - http
-  - mock
+  - require

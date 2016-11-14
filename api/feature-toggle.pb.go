@@ -9,6 +9,17 @@ It is generated from these files:
 	api/feature-toggle.proto
 
 It has these top-level messages:
+	GetFeaturesByPropertiesRequest
+	GetFeaturesByPropertiesResponse
+	CreateToggleRuleRequest
+	CreateToggleRuleResponse
+	ReadToggleRuleRequest
+	ReadToggleRuleResponse
+	DeleteToggleRuleRequest
+	DeleteToggleRuleResponse
+	SearchToggleRuleRequest
+	SearchToggleRuleResponse
+	ToggleRule
 	CreateFeatureRequest
 	CreateFeatureResponse
 	ReadFeatureRequest
@@ -18,6 +29,15 @@ It has these top-level messages:
 	SearchFeatureRequest
 	SearchFeatureResponse
 	Feature
+	CreatePropertyRequest
+	CreatePropertyResponse
+	ReadPropertyRequest
+	ReadPropertyResponse
+	DeletePropertyRequest
+	DeletePropertyResponse
+	SearchPropertyRequest
+	SearchPropertyResponse
+	Property
 */
 package feature_toggle_api
 
@@ -43,14 +63,207 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
+type GetFeaturesByPropertiesRequest struct {
+	Properties map[string]string `protobuf:"bytes,1,rep,name=properties" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+}
+
+func (m *GetFeaturesByPropertiesRequest) Reset()                    { *m = GetFeaturesByPropertiesRequest{} }
+func (m *GetFeaturesByPropertiesRequest) String() string            { return proto.CompactTextString(m) }
+func (*GetFeaturesByPropertiesRequest) ProtoMessage()               {}
+func (*GetFeaturesByPropertiesRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+
+func (m *GetFeaturesByPropertiesRequest) GetProperties() map[string]string {
+	if m != nil {
+		return m.Properties
+	}
+	return nil
+}
+
+type GetFeaturesByPropertiesResponse struct {
+	Features []string `protobuf:"bytes,1,rep,name=features" json:"features,omitempty"`
+}
+
+func (m *GetFeaturesByPropertiesResponse) Reset()                    { *m = GetFeaturesByPropertiesResponse{} }
+func (m *GetFeaturesByPropertiesResponse) String() string            { return proto.CompactTextString(m) }
+func (*GetFeaturesByPropertiesResponse) ProtoMessage()               {}
+func (*GetFeaturesByPropertiesResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+
+type CreateToggleRuleRequest struct {
+	ToggleRule *ToggleRule `protobuf:"bytes,1,opt,name=toggleRule" json:"toggleRule,omitempty"`
+}
+
+func (m *CreateToggleRuleRequest) Reset()                    { *m = CreateToggleRuleRequest{} }
+func (m *CreateToggleRuleRequest) String() string            { return proto.CompactTextString(m) }
+func (*CreateToggleRuleRequest) ProtoMessage()               {}
+func (*CreateToggleRuleRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+
+func (m *CreateToggleRuleRequest) GetToggleRule() *ToggleRule {
+	if m != nil {
+		return m.ToggleRule
+	}
+	return nil
+}
+
+type CreateToggleRuleResponse struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (m *CreateToggleRuleResponse) Reset()                    { *m = CreateToggleRuleResponse{} }
+func (m *CreateToggleRuleResponse) String() string            { return proto.CompactTextString(m) }
+func (*CreateToggleRuleResponse) ProtoMessage()               {}
+func (*CreateToggleRuleResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+
+type ReadToggleRuleRequest struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (m *ReadToggleRuleRequest) Reset()                    { *m = ReadToggleRuleRequest{} }
+func (m *ReadToggleRuleRequest) String() string            { return proto.CompactTextString(m) }
+func (*ReadToggleRuleRequest) ProtoMessage()               {}
+func (*ReadToggleRuleRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+
+type ReadToggleRuleResponse struct {
+	ToggleRule *ToggleRule `protobuf:"bytes,1,opt,name=toggleRule" json:"toggleRule,omitempty"`
+}
+
+func (m *ReadToggleRuleResponse) Reset()                    { *m = ReadToggleRuleResponse{} }
+func (m *ReadToggleRuleResponse) String() string            { return proto.CompactTextString(m) }
+func (*ReadToggleRuleResponse) ProtoMessage()               {}
+func (*ReadToggleRuleResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+
+func (m *ReadToggleRuleResponse) GetToggleRule() *ToggleRule {
+	if m != nil {
+		return m.ToggleRule
+	}
+	return nil
+}
+
+type DeleteToggleRuleRequest struct {
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+}
+
+func (m *DeleteToggleRuleRequest) Reset()                    { *m = DeleteToggleRuleRequest{} }
+func (m *DeleteToggleRuleRequest) String() string            { return proto.CompactTextString(m) }
+func (*DeleteToggleRuleRequest) ProtoMessage()               {}
+func (*DeleteToggleRuleRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
+
+type DeleteToggleRuleResponse struct {
+}
+
+func (m *DeleteToggleRuleResponse) Reset()                    { *m = DeleteToggleRuleResponse{} }
+func (m *DeleteToggleRuleResponse) String() string            { return proto.CompactTextString(m) }
+func (*DeleteToggleRuleResponse) ProtoMessage()               {}
+func (*DeleteToggleRuleResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
+
+type SearchToggleRuleRequest struct {
+	Name         string                      `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	Enabled      bool                        `protobuf:"varint,2,opt,name=enabled" json:"enabled,omitempty"`
+	CreatedStart *google_protobuf1.Timestamp `protobuf:"bytes,3,opt,name=createdStart" json:"createdStart,omitempty"`
+	CreatedEnd   *google_protobuf1.Timestamp `protobuf:"bytes,4,opt,name=createdEnd" json:"createdEnd,omitempty"`
+	ExpiresStart *google_protobuf1.Timestamp `protobuf:"bytes,5,opt,name=expiresStart" json:"expiresStart,omitempty"`
+	ExpiresEnd   *google_protobuf1.Timestamp `protobuf:"bytes,6,opt,name=expiresEnd" json:"expiresEnd,omitempty"`
+	Properties   map[string]string           `protobuf:"bytes,7,rep,name=properties" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+}
+
+func (m *SearchToggleRuleRequest) Reset()                    { *m = SearchToggleRuleRequest{} }
+func (m *SearchToggleRuleRequest) String() string            { return proto.CompactTextString(m) }
+func (*SearchToggleRuleRequest) ProtoMessage()               {}
+func (*SearchToggleRuleRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
+
+func (m *SearchToggleRuleRequest) GetCreatedStart() *google_protobuf1.Timestamp {
+	if m != nil {
+		return m.CreatedStart
+	}
+	return nil
+}
+
+func (m *SearchToggleRuleRequest) GetCreatedEnd() *google_protobuf1.Timestamp {
+	if m != nil {
+		return m.CreatedEnd
+	}
+	return nil
+}
+
+func (m *SearchToggleRuleRequest) GetExpiresStart() *google_protobuf1.Timestamp {
+	if m != nil {
+		return m.ExpiresStart
+	}
+	return nil
+}
+
+func (m *SearchToggleRuleRequest) GetExpiresEnd() *google_protobuf1.Timestamp {
+	if m != nil {
+		return m.ExpiresEnd
+	}
+	return nil
+}
+
+func (m *SearchToggleRuleRequest) GetProperties() map[string]string {
+	if m != nil {
+		return m.Properties
+	}
+	return nil
+}
+
+type SearchToggleRuleResponse struct {
+	ToggleRules []*ToggleRule `protobuf:"bytes,1,rep,name=toggleRules" json:"toggleRules,omitempty"`
+}
+
+func (m *SearchToggleRuleResponse) Reset()                    { *m = SearchToggleRuleResponse{} }
+func (m *SearchToggleRuleResponse) String() string            { return proto.CompactTextString(m) }
+func (*SearchToggleRuleResponse) ProtoMessage()               {}
+func (*SearchToggleRuleResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+
+func (m *SearchToggleRuleResponse) GetToggleRules() []*ToggleRule {
+	if m != nil {
+		return m.ToggleRules
+	}
+	return nil
+}
+
+type ToggleRule struct {
+	Id         string                      `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name       string                      `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Enabled    bool                        `protobuf:"varint,3,opt,name=enabled" json:"enabled,omitempty"`
+	Created    *google_protobuf1.Timestamp `protobuf:"bytes,4,opt,name=created" json:"created,omitempty"`
+	Expires    *google_protobuf1.Timestamp `protobuf:"bytes,5,opt,name=expires" json:"expires,omitempty"`
+	Properties map[string]string           `protobuf:"bytes,6,rep,name=properties" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+}
+
+func (m *ToggleRule) Reset()                    { *m = ToggleRule{} }
+func (m *ToggleRule) String() string            { return proto.CompactTextString(m) }
+func (*ToggleRule) ProtoMessage()               {}
+func (*ToggleRule) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
+
+func (m *ToggleRule) GetCreated() *google_protobuf1.Timestamp {
+	if m != nil {
+		return m.Created
+	}
+	return nil
+}
+
+func (m *ToggleRule) GetExpires() *google_protobuf1.Timestamp {
+	if m != nil {
+		return m.Expires
+	}
+	return nil
+}
+
+func (m *ToggleRule) GetProperties() map[string]string {
+	if m != nil {
+		return m.Properties
+	}
+	return nil
+}
+
 type CreateFeatureRequest struct {
-	Feature *Feature `protobuf:"bytes,1,opt,name=Feature" json:"Feature,omitempty"`
+	Feature *Feature `protobuf:"bytes,1,opt,name=feature" json:"feature,omitempty"`
 }
 
 func (m *CreateFeatureRequest) Reset()                    { *m = CreateFeatureRequest{} }
 func (m *CreateFeatureRequest) String() string            { return proto.CompactTextString(m) }
 func (*CreateFeatureRequest) ProtoMessage()               {}
-func (*CreateFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (*CreateFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
 func (m *CreateFeatureRequest) GetFeature() *Feature {
 	if m != nil {
@@ -60,20 +273,13 @@ func (m *CreateFeatureRequest) GetFeature() *Feature {
 }
 
 type CreateFeatureResponse struct {
-	Feature *Feature `protobuf:"bytes,1,opt,name=Feature" json:"Feature,omitempty"`
+	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
 }
 
 func (m *CreateFeatureResponse) Reset()                    { *m = CreateFeatureResponse{} }
 func (m *CreateFeatureResponse) String() string            { return proto.CompactTextString(m) }
 func (*CreateFeatureResponse) ProtoMessage()               {}
-func (*CreateFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
-
-func (m *CreateFeatureResponse) GetFeature() *Feature {
-	if m != nil {
-		return m.Feature
-	}
-	return nil
-}
+func (*CreateFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
 type ReadFeatureRequest struct {
 	Id string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
@@ -82,16 +288,16 @@ type ReadFeatureRequest struct {
 func (m *ReadFeatureRequest) Reset()                    { *m = ReadFeatureRequest{} }
 func (m *ReadFeatureRequest) String() string            { return proto.CompactTextString(m) }
 func (*ReadFeatureRequest) ProtoMessage()               {}
-func (*ReadFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+func (*ReadFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
 
 type ReadFeatureResponse struct {
-	Feature *Feature `protobuf:"bytes,1,opt,name=Feature" json:"Feature,omitempty"`
+	Feature *Feature `protobuf:"bytes,1,opt,name=feature" json:"feature,omitempty"`
 }
 
 func (m *ReadFeatureResponse) Reset()                    { *m = ReadFeatureResponse{} }
 func (m *ReadFeatureResponse) String() string            { return proto.CompactTextString(m) }
 func (*ReadFeatureResponse) ProtoMessage()               {}
-func (*ReadFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+func (*ReadFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
 
 func (m *ReadFeatureResponse) GetFeature() *Feature {
 	if m != nil {
@@ -107,7 +313,7 @@ type DeleteFeatureRequest struct {
 func (m *DeleteFeatureRequest) Reset()                    { *m = DeleteFeatureRequest{} }
 func (m *DeleteFeatureRequest) String() string            { return proto.CompactTextString(m) }
 func (*DeleteFeatureRequest) ProtoMessage()               {}
-func (*DeleteFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+func (*DeleteFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
 
 type DeleteFeatureResponse struct {
 }
@@ -115,84 +321,25 @@ type DeleteFeatureResponse struct {
 func (m *DeleteFeatureResponse) Reset()                    { *m = DeleteFeatureResponse{} }
 func (m *DeleteFeatureResponse) String() string            { return proto.CompactTextString(m) }
 func (*DeleteFeatureResponse) ProtoMessage()               {}
-func (*DeleteFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+func (*DeleteFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
 
 type SearchFeatureRequest struct {
-	Filter *SearchFeatureRequest_FilterMessage `protobuf:"bytes,1,opt,name=filter" json:"filter,omitempty"`
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
 }
 
 func (m *SearchFeatureRequest) Reset()                    { *m = SearchFeatureRequest{} }
 func (m *SearchFeatureRequest) String() string            { return proto.CompactTextString(m) }
 func (*SearchFeatureRequest) ProtoMessage()               {}
-func (*SearchFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
-
-func (m *SearchFeatureRequest) GetFilter() *SearchFeatureRequest_FilterMessage {
-	if m != nil {
-		return m.Filter
-	}
-	return nil
-}
-
-type SearchFeatureRequest_FilterMessage struct {
-	Name         string                      `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	Enabled      bool                        `protobuf:"varint,2,opt,name=enabled" json:"enabled,omitempty"`
-	CreatedStart *google_protobuf1.Timestamp `protobuf:"bytes,3,opt,name=createdStart" json:"createdStart,omitempty"`
-	CreatedEnd   *google_protobuf1.Timestamp `protobuf:"bytes,4,opt,name=createdEnd" json:"createdEnd,omitempty"`
-	ExpiresStart *google_protobuf1.Timestamp `protobuf:"bytes,5,opt,name=expiresStart" json:"expiresStart,omitempty"`
-	ExpiresEnd   *google_protobuf1.Timestamp `protobuf:"bytes,6,opt,name=expiresEnd" json:"expiresEnd,omitempty"`
-	Properties   map[string]string           `protobuf:"bytes,7,rep,name=properties" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-}
-
-func (m *SearchFeatureRequest_FilterMessage) Reset()         { *m = SearchFeatureRequest_FilterMessage{} }
-func (m *SearchFeatureRequest_FilterMessage) String() string { return proto.CompactTextString(m) }
-func (*SearchFeatureRequest_FilterMessage) ProtoMessage()    {}
-func (*SearchFeatureRequest_FilterMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor0, []int{6, 0}
-}
-
-func (m *SearchFeatureRequest_FilterMessage) GetCreatedStart() *google_protobuf1.Timestamp {
-	if m != nil {
-		return m.CreatedStart
-	}
-	return nil
-}
-
-func (m *SearchFeatureRequest_FilterMessage) GetCreatedEnd() *google_protobuf1.Timestamp {
-	if m != nil {
-		return m.CreatedEnd
-	}
-	return nil
-}
-
-func (m *SearchFeatureRequest_FilterMessage) GetExpiresStart() *google_protobuf1.Timestamp {
-	if m != nil {
-		return m.ExpiresStart
-	}
-	return nil
-}
-
-func (m *SearchFeatureRequest_FilterMessage) GetExpiresEnd() *google_protobuf1.Timestamp {
-	if m != nil {
-		return m.ExpiresEnd
-	}
-	return nil
-}
-
-func (m *SearchFeatureRequest_FilterMessage) GetProperties() map[string]string {
-	if m != nil {
-		return m.Properties
-	}
-	return nil
-}
+func (*SearchFeatureRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{17} }
 
 type SearchFeatureResponse struct {
-	Features []*Feature `protobuf:"bytes,1,rep,name=Features" json:"Features,omitempty"`
+	Features []*Feature `protobuf:"bytes,1,rep,name=features" json:"features,omitempty"`
 }
 
 func (m *SearchFeatureResponse) Reset()                    { *m = SearchFeatureResponse{} }
 func (m *SearchFeatureResponse) String() string            { return proto.CompactTextString(m) }
 func (*SearchFeatureResponse) ProtoMessage()               {}
-func (*SearchFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
+func (*SearchFeatureResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{18} }
 
 func (m *SearchFeatureResponse) GetFeatures() []*Feature {
 	if m != nil {
@@ -202,41 +349,131 @@ func (m *SearchFeatureResponse) GetFeatures() []*Feature {
 }
 
 type Feature struct {
-	Id         string                      `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
-	Name       string                      `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
-	Enabled    bool                        `protobuf:"varint,3,opt,name=enabled" json:"enabled,omitempty"`
-	Created    *google_protobuf1.Timestamp `protobuf:"bytes,4,opt,name=created" json:"created,omitempty"`
-	Expires    *google_protobuf1.Timestamp `protobuf:"bytes,5,opt,name=expires" json:"expires,omitempty"`
-	Properties map[string]string           `protobuf:"bytes,6,rep,name=properties" json:"properties,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Id          string `protobuf:"bytes,1,opt,name=id" json:"id,omitempty"`
+	Name        string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Enabled     bool   `protobuf:"varint,3,opt,name=enabled" json:"enabled,omitempty"`
+	Description string `protobuf:"bytes,4,opt,name=description" json:"description,omitempty"`
 }
 
 func (m *Feature) Reset()                    { *m = Feature{} }
 func (m *Feature) String() string            { return proto.CompactTextString(m) }
 func (*Feature) ProtoMessage()               {}
-func (*Feature) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
+func (*Feature) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{19} }
 
-func (m *Feature) GetCreated() *google_protobuf1.Timestamp {
+type CreatePropertyRequest struct {
+	Property *Property `protobuf:"bytes,1,opt,name=property" json:"property,omitempty"`
+}
+
+func (m *CreatePropertyRequest) Reset()                    { *m = CreatePropertyRequest{} }
+func (m *CreatePropertyRequest) String() string            { return proto.CompactTextString(m) }
+func (*CreatePropertyRequest) ProtoMessage()               {}
+func (*CreatePropertyRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{20} }
+
+func (m *CreatePropertyRequest) GetProperty() *Property {
 	if m != nil {
-		return m.Created
+		return m.Property
 	}
 	return nil
 }
 
-func (m *Feature) GetExpires() *google_protobuf1.Timestamp {
+type CreatePropertyResponse struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *CreatePropertyResponse) Reset()                    { *m = CreatePropertyResponse{} }
+func (m *CreatePropertyResponse) String() string            { return proto.CompactTextString(m) }
+func (*CreatePropertyResponse) ProtoMessage()               {}
+func (*CreatePropertyResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{21} }
+
+type ReadPropertyRequest struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *ReadPropertyRequest) Reset()                    { *m = ReadPropertyRequest{} }
+func (m *ReadPropertyRequest) String() string            { return proto.CompactTextString(m) }
+func (*ReadPropertyRequest) ProtoMessage()               {}
+func (*ReadPropertyRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{22} }
+
+type ReadPropertyResponse struct {
+	Property *Property `protobuf:"bytes,1,opt,name=Property" json:"Property,omitempty"`
+}
+
+func (m *ReadPropertyResponse) Reset()                    { *m = ReadPropertyResponse{} }
+func (m *ReadPropertyResponse) String() string            { return proto.CompactTextString(m) }
+func (*ReadPropertyResponse) ProtoMessage()               {}
+func (*ReadPropertyResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{23} }
+
+func (m *ReadPropertyResponse) GetProperty() *Property {
 	if m != nil {
-		return m.Expires
+		return m.Property
 	}
 	return nil
 }
 
-func (m *Feature) GetProperties() map[string]string {
+type DeletePropertyRequest struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *DeletePropertyRequest) Reset()                    { *m = DeletePropertyRequest{} }
+func (m *DeletePropertyRequest) String() string            { return proto.CompactTextString(m) }
+func (*DeletePropertyRequest) ProtoMessage()               {}
+func (*DeletePropertyRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{24} }
+
+type DeletePropertyResponse struct {
+}
+
+func (m *DeletePropertyResponse) Reset()                    { *m = DeletePropertyResponse{} }
+func (m *DeletePropertyResponse) String() string            { return proto.CompactTextString(m) }
+func (*DeletePropertyResponse) ProtoMessage()               {}
+func (*DeletePropertyResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{25} }
+
+type SearchPropertyRequest struct {
+	Name string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+}
+
+func (m *SearchPropertyRequest) Reset()                    { *m = SearchPropertyRequest{} }
+func (m *SearchPropertyRequest) String() string            { return proto.CompactTextString(m) }
+func (*SearchPropertyRequest) ProtoMessage()               {}
+func (*SearchPropertyRequest) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{26} }
+
+type SearchPropertyResponse struct {
+	Properties []*Property `protobuf:"bytes,1,rep,name=properties" json:"properties,omitempty"`
+}
+
+func (m *SearchPropertyResponse) Reset()                    { *m = SearchPropertyResponse{} }
+func (m *SearchPropertyResponse) String() string            { return proto.CompactTextString(m) }
+func (*SearchPropertyResponse) ProtoMessage()               {}
+func (*SearchPropertyResponse) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{27} }
+
+func (m *SearchPropertyResponse) GetProperties() []*Property {
 	if m != nil {
 		return m.Properties
 	}
 	return nil
 }
 
+type Property struct {
+	Name        string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	Description string `protobuf:"bytes,2,opt,name=description" json:"description,omitempty"`
+}
+
+func (m *Property) Reset()                    { *m = Property{} }
+func (m *Property) String() string            { return proto.CompactTextString(m) }
+func (*Property) ProtoMessage()               {}
+func (*Property) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{28} }
+
 func init() {
+	proto.RegisterType((*GetFeaturesByPropertiesRequest)(nil), "feature_toggle_api.GetFeaturesByPropertiesRequest")
+	proto.RegisterType((*GetFeaturesByPropertiesResponse)(nil), "feature_toggle_api.GetFeaturesByPropertiesResponse")
+	proto.RegisterType((*CreateToggleRuleRequest)(nil), "feature_toggle_api.CreateToggleRuleRequest")
+	proto.RegisterType((*CreateToggleRuleResponse)(nil), "feature_toggle_api.CreateToggleRuleResponse")
+	proto.RegisterType((*ReadToggleRuleRequest)(nil), "feature_toggle_api.ReadToggleRuleRequest")
+	proto.RegisterType((*ReadToggleRuleResponse)(nil), "feature_toggle_api.ReadToggleRuleResponse")
+	proto.RegisterType((*DeleteToggleRuleRequest)(nil), "feature_toggle_api.DeleteToggleRuleRequest")
+	proto.RegisterType((*DeleteToggleRuleResponse)(nil), "feature_toggle_api.DeleteToggleRuleResponse")
+	proto.RegisterType((*SearchToggleRuleRequest)(nil), "feature_toggle_api.SearchToggleRuleRequest")
+	proto.RegisterType((*SearchToggleRuleResponse)(nil), "feature_toggle_api.SearchToggleRuleResponse")
+	proto.RegisterType((*ToggleRule)(nil), "feature_toggle_api.ToggleRule")
 	proto.RegisterType((*CreateFeatureRequest)(nil), "feature_toggle_api.CreateFeatureRequest")
 	proto.RegisterType((*CreateFeatureResponse)(nil), "feature_toggle_api.CreateFeatureResponse")
 	proto.RegisterType((*ReadFeatureRequest)(nil), "feature_toggle_api.ReadFeatureRequest")
@@ -244,9 +481,17 @@ func init() {
 	proto.RegisterType((*DeleteFeatureRequest)(nil), "feature_toggle_api.DeleteFeatureRequest")
 	proto.RegisterType((*DeleteFeatureResponse)(nil), "feature_toggle_api.DeleteFeatureResponse")
 	proto.RegisterType((*SearchFeatureRequest)(nil), "feature_toggle_api.SearchFeatureRequest")
-	proto.RegisterType((*SearchFeatureRequest_FilterMessage)(nil), "feature_toggle_api.SearchFeatureRequest.FilterMessage")
 	proto.RegisterType((*SearchFeatureResponse)(nil), "feature_toggle_api.SearchFeatureResponse")
 	proto.RegisterType((*Feature)(nil), "feature_toggle_api.Feature")
+	proto.RegisterType((*CreatePropertyRequest)(nil), "feature_toggle_api.CreatePropertyRequest")
+	proto.RegisterType((*CreatePropertyResponse)(nil), "feature_toggle_api.CreatePropertyResponse")
+	proto.RegisterType((*ReadPropertyRequest)(nil), "feature_toggle_api.ReadPropertyRequest")
+	proto.RegisterType((*ReadPropertyResponse)(nil), "feature_toggle_api.ReadPropertyResponse")
+	proto.RegisterType((*DeletePropertyRequest)(nil), "feature_toggle_api.DeletePropertyRequest")
+	proto.RegisterType((*DeletePropertyResponse)(nil), "feature_toggle_api.DeletePropertyResponse")
+	proto.RegisterType((*SearchPropertyRequest)(nil), "feature_toggle_api.SearchPropertyRequest")
+	proto.RegisterType((*SearchPropertyResponse)(nil), "feature_toggle_api.SearchPropertyResponse")
+	proto.RegisterType((*Property)(nil), "feature_toggle_api.Property")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -260,10 +505,19 @@ const _ = grpc.SupportPackageIsVersion4
 // Client API for FeatureToggleService service
 
 type FeatureToggleServiceClient interface {
+	GetFeaturesForProperties(ctx context.Context, in *GetFeaturesByPropertiesRequest, opts ...grpc.CallOption) (*GetFeaturesByPropertiesResponse, error)
+	CreateToggleRule(ctx context.Context, in *CreateToggleRuleRequest, opts ...grpc.CallOption) (*CreateToggleRuleResponse, error)
+	ReadToggleRule(ctx context.Context, in *ReadToggleRuleRequest, opts ...grpc.CallOption) (*ReadToggleRuleResponse, error)
+	DeleteToggleRule(ctx context.Context, in *DeleteToggleRuleRequest, opts ...grpc.CallOption) (*DeleteToggleRuleResponse, error)
+	SearchToggleRule(ctx context.Context, in *SearchToggleRuleRequest, opts ...grpc.CallOption) (*SearchToggleRuleResponse, error)
 	CreateFeature(ctx context.Context, in *CreateFeatureRequest, opts ...grpc.CallOption) (*CreateFeatureResponse, error)
 	ReadFeature(ctx context.Context, in *ReadFeatureRequest, opts ...grpc.CallOption) (*ReadFeatureResponse, error)
 	DeleteFeature(ctx context.Context, in *DeleteFeatureRequest, opts ...grpc.CallOption) (*DeleteFeatureResponse, error)
 	SearchFeature(ctx context.Context, in *SearchFeatureRequest, opts ...grpc.CallOption) (*SearchFeatureResponse, error)
+	CreateProperty(ctx context.Context, in *CreatePropertyRequest, opts ...grpc.CallOption) (*CreatePropertyResponse, error)
+	ReadProperty(ctx context.Context, in *ReadPropertyRequest, opts ...grpc.CallOption) (*ReadPropertyResponse, error)
+	DeleteProperty(ctx context.Context, in *DeletePropertyRequest, opts ...grpc.CallOption) (*DeletePropertyResponse, error)
+	SearchProperty(ctx context.Context, in *SearchPropertyRequest, opts ...grpc.CallOption) (*SearchPropertyResponse, error)
 }
 
 type featureToggleServiceClient struct {
@@ -272,6 +526,51 @@ type featureToggleServiceClient struct {
 
 func NewFeatureToggleServiceClient(cc *grpc.ClientConn) FeatureToggleServiceClient {
 	return &featureToggleServiceClient{cc}
+}
+
+func (c *featureToggleServiceClient) GetFeaturesForProperties(ctx context.Context, in *GetFeaturesByPropertiesRequest, opts ...grpc.CallOption) (*GetFeaturesByPropertiesResponse, error) {
+	out := new(GetFeaturesByPropertiesResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/GetFeaturesForProperties", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *featureToggleServiceClient) CreateToggleRule(ctx context.Context, in *CreateToggleRuleRequest, opts ...grpc.CallOption) (*CreateToggleRuleResponse, error) {
+	out := new(CreateToggleRuleResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/CreateToggleRule", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *featureToggleServiceClient) ReadToggleRule(ctx context.Context, in *ReadToggleRuleRequest, opts ...grpc.CallOption) (*ReadToggleRuleResponse, error) {
+	out := new(ReadToggleRuleResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/ReadToggleRule", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *featureToggleServiceClient) DeleteToggleRule(ctx context.Context, in *DeleteToggleRuleRequest, opts ...grpc.CallOption) (*DeleteToggleRuleResponse, error) {
+	out := new(DeleteToggleRuleResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/DeleteToggleRule", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *featureToggleServiceClient) SearchToggleRule(ctx context.Context, in *SearchToggleRuleRequest, opts ...grpc.CallOption) (*SearchToggleRuleResponse, error) {
+	out := new(SearchToggleRuleResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/SearchToggleRule", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *featureToggleServiceClient) CreateFeature(ctx context.Context, in *CreateFeatureRequest, opts ...grpc.CallOption) (*CreateFeatureResponse, error) {
@@ -310,17 +609,152 @@ func (c *featureToggleServiceClient) SearchFeature(ctx context.Context, in *Sear
 	return out, nil
 }
 
+func (c *featureToggleServiceClient) CreateProperty(ctx context.Context, in *CreatePropertyRequest, opts ...grpc.CallOption) (*CreatePropertyResponse, error) {
+	out := new(CreatePropertyResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/CreateProperty", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *featureToggleServiceClient) ReadProperty(ctx context.Context, in *ReadPropertyRequest, opts ...grpc.CallOption) (*ReadPropertyResponse, error) {
+	out := new(ReadPropertyResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/ReadProperty", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *featureToggleServiceClient) DeleteProperty(ctx context.Context, in *DeletePropertyRequest, opts ...grpc.CallOption) (*DeletePropertyResponse, error) {
+	out := new(DeletePropertyResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/DeleteProperty", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *featureToggleServiceClient) SearchProperty(ctx context.Context, in *SearchPropertyRequest, opts ...grpc.CallOption) (*SearchPropertyResponse, error) {
+	out := new(SearchPropertyResponse)
+	err := grpc.Invoke(ctx, "/feature_toggle_api.FeatureToggleService/SearchProperty", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for FeatureToggleService service
 
 type FeatureToggleServiceServer interface {
+	GetFeaturesForProperties(context.Context, *GetFeaturesByPropertiesRequest) (*GetFeaturesByPropertiesResponse, error)
+	CreateToggleRule(context.Context, *CreateToggleRuleRequest) (*CreateToggleRuleResponse, error)
+	ReadToggleRule(context.Context, *ReadToggleRuleRequest) (*ReadToggleRuleResponse, error)
+	DeleteToggleRule(context.Context, *DeleteToggleRuleRequest) (*DeleteToggleRuleResponse, error)
+	SearchToggleRule(context.Context, *SearchToggleRuleRequest) (*SearchToggleRuleResponse, error)
 	CreateFeature(context.Context, *CreateFeatureRequest) (*CreateFeatureResponse, error)
 	ReadFeature(context.Context, *ReadFeatureRequest) (*ReadFeatureResponse, error)
 	DeleteFeature(context.Context, *DeleteFeatureRequest) (*DeleteFeatureResponse, error)
 	SearchFeature(context.Context, *SearchFeatureRequest) (*SearchFeatureResponse, error)
+	CreateProperty(context.Context, *CreatePropertyRequest) (*CreatePropertyResponse, error)
+	ReadProperty(context.Context, *ReadPropertyRequest) (*ReadPropertyResponse, error)
+	DeleteProperty(context.Context, *DeletePropertyRequest) (*DeletePropertyResponse, error)
+	SearchProperty(context.Context, *SearchPropertyRequest) (*SearchPropertyResponse, error)
 }
 
 func RegisterFeatureToggleServiceServer(s *grpc.Server, srv FeatureToggleServiceServer) {
 	s.RegisterService(&_FeatureToggleService_serviceDesc, srv)
+}
+
+func _FeatureToggleService_GetFeaturesForProperties_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFeaturesByPropertiesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).GetFeaturesForProperties(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/GetFeaturesForProperties",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).GetFeaturesForProperties(ctx, req.(*GetFeaturesByPropertiesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeatureToggleService_CreateToggleRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateToggleRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).CreateToggleRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/CreateToggleRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).CreateToggleRule(ctx, req.(*CreateToggleRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeatureToggleService_ReadToggleRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadToggleRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).ReadToggleRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/ReadToggleRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).ReadToggleRule(ctx, req.(*ReadToggleRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeatureToggleService_DeleteToggleRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteToggleRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).DeleteToggleRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/DeleteToggleRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).DeleteToggleRule(ctx, req.(*DeleteToggleRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeatureToggleService_SearchToggleRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchToggleRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).SearchToggleRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/SearchToggleRule",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).SearchToggleRule(ctx, req.(*SearchToggleRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _FeatureToggleService_CreateFeature_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -395,10 +829,102 @@ func _FeatureToggleService_SearchFeature_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FeatureToggleService_CreateProperty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePropertyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).CreateProperty(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/CreateProperty",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).CreateProperty(ctx, req.(*CreatePropertyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeatureToggleService_ReadProperty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadPropertyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).ReadProperty(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/ReadProperty",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).ReadProperty(ctx, req.(*ReadPropertyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeatureToggleService_DeleteProperty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePropertyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).DeleteProperty(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/DeleteProperty",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).DeleteProperty(ctx, req.(*DeletePropertyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FeatureToggleService_SearchProperty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchPropertyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FeatureToggleServiceServer).SearchProperty(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/feature_toggle_api.FeatureToggleService/SearchProperty",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FeatureToggleServiceServer).SearchProperty(ctx, req.(*SearchPropertyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _FeatureToggleService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "feature_toggle_api.FeatureToggleService",
 	HandlerType: (*FeatureToggleServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetFeaturesForProperties",
+			Handler:    _FeatureToggleService_GetFeaturesForProperties_Handler,
+		},
+		{
+			MethodName: "CreateToggleRule",
+			Handler:    _FeatureToggleService_CreateToggleRule_Handler,
+		},
+		{
+			MethodName: "ReadToggleRule",
+			Handler:    _FeatureToggleService_ReadToggleRule_Handler,
+		},
+		{
+			MethodName: "DeleteToggleRule",
+			Handler:    _FeatureToggleService_DeleteToggleRule_Handler,
+		},
+		{
+			MethodName: "SearchToggleRule",
+			Handler:    _FeatureToggleService_SearchToggleRule_Handler,
+		},
 		{
 			MethodName: "CreateFeature",
 			Handler:    _FeatureToggleService_CreateFeature_Handler,
@@ -415,6 +941,22 @@ var _FeatureToggleService_serviceDesc = grpc.ServiceDesc{
 			MethodName: "SearchFeature",
 			Handler:    _FeatureToggleService_SearchFeature_Handler,
 		},
+		{
+			MethodName: "CreateProperty",
+			Handler:    _FeatureToggleService_CreateProperty_Handler,
+		},
+		{
+			MethodName: "ReadProperty",
+			Handler:    _FeatureToggleService_ReadProperty_Handler,
+		},
+		{
+			MethodName: "DeleteProperty",
+			Handler:    _FeatureToggleService_DeleteProperty_Handler,
+		},
+		{
+			MethodName: "SearchProperty",
+			Handler:    _FeatureToggleService_SearchProperty_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "api/feature-toggle.proto",
@@ -423,44 +965,73 @@ var _FeatureToggleService_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("api/feature-toggle.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 614 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xb4, 0x55, 0xcd, 0x6e, 0xd3, 0x40,
-	0x10, 0x56, 0xec, 0x34, 0x49, 0xa7, 0x98, 0x56, 0xdb, 0x44, 0x58, 0x06, 0x89, 0xca, 0x42, 0xa5,
-	0x14, 0xe1, 0x48, 0xe5, 0x57, 0x91, 0xe0, 0x02, 0xcd, 0x05, 0x5a, 0x55, 0x4e, 0xef, 0xd5, 0x26,
-	0x9e, 0x04, 0x8b, 0xc4, 0x36, 0xf6, 0x26, 0x22, 0xaa, 0xb8, 0xf0, 0x0a, 0x3c, 0x10, 0x27, 0x9e,
-	0x80, 0x2b, 0x47, 0x5e, 0x03, 0x09, 0x7b, 0xbd, 0x0e, 0xb1, 0xb3, 0xc2, 0x51, 0x51, 0x6f, 0xbb,
-	0xb3, 0xdf, 0x7c, 0xdf, 0xac, 0xe7, 0xdb, 0x31, 0xe8, 0x34, 0x70, 0xdb, 0x43, 0xa4, 0x6c, 0x1a,
-	0xe2, 0x23, 0xe6, 0x8f, 0x46, 0x63, 0xb4, 0x82, 0xd0, 0x67, 0x3e, 0x21, 0x22, 0x7a, 0x91, 0x46,
-	0x2f, 0x62, 0xa0, 0x71, 0x67, 0xe4, 0xfb, 0xf1, 0xba, 0x9d, 0x24, 0x51, 0xcf, 0xf3, 0x19, 0x65,
-	0xae, 0xef, 0x45, 0x69, 0x86, 0x71, 0x57, 0x9c, 0xf2, 0x5d, 0x7f, 0x3a, 0x6c, 0x33, 0x77, 0x82,
-	0x11, 0xa3, 0x93, 0x20, 0x05, 0x98, 0x27, 0xd0, 0x7c, 0x1d, 0xc6, 0xac, 0xd8, 0x4d, 0xa9, 0x6d,
-	0xfc, 0x38, 0x8d, 0x01, 0xe4, 0x29, 0xd4, 0x45, 0x44, 0xaf, 0xec, 0x55, 0x0e, 0xb6, 0x8e, 0x6e,
-	0x5b, 0xab, 0xe2, 0x56, 0x96, 0x94, 0x61, 0xcd, 0x53, 0x68, 0x15, 0xe8, 0xa2, 0x20, 0xae, 0x06,
-	0xaf, 0xca, 0x77, 0x0f, 0x88, 0x8d, 0xd4, 0x29, 0x14, 0x77, 0x13, 0x14, 0xd7, 0xe1, 0x3c, 0x9b,
-	0x76, 0xbc, 0x32, 0xdf, 0xc1, 0x6e, 0x0e, 0xf5, 0x7f, 0x9a, 0xfb, 0xd0, 0x7c, 0x83, 0x63, 0x5c,
-	0xf9, 0x24, 0x45, 0xd5, 0x5b, 0xd0, 0x2a, 0xe0, 0x52, 0x5d, 0xf3, 0x7b, 0x15, 0x9a, 0x3d, 0xa4,
-	0xe1, 0xe0, 0x7d, 0x81, 0xe1, 0x14, 0x6a, 0x43, 0x77, 0xcc, 0x30, 0x14, 0xf5, 0x3c, 0x93, 0xd5,
-	0x23, 0xcb, 0xb4, 0xba, 0x3c, 0xed, 0x04, 0xa3, 0x88, 0x8e, 0xd0, 0x16, 0x2c, 0xc6, 0x4f, 0x15,
-	0xb4, 0xdc, 0x09, 0x21, 0x50, 0xf5, 0xe8, 0x04, 0x45, 0x95, 0x7c, 0x4d, 0x74, 0xa8, 0xa3, 0x47,
-	0xfb, 0x63, 0x74, 0x74, 0x25, 0x0e, 0x37, 0xec, 0x6c, 0x4b, 0x5e, 0xc1, 0x8d, 0x01, 0xef, 0x96,
-	0xd3, 0x63, 0x34, 0x64, 0xba, 0xca, 0xab, 0x32, 0xac, 0xd4, 0x34, 0x56, 0x66, 0x1a, 0xeb, 0x3c,
-	0x33, 0x8d, 0x9d, 0xc3, 0x93, 0x0e, 0x80, 0xd8, 0x1f, 0x7b, 0x8e, 0x5e, 0x2d, 0xcd, 0x5e, 0x42,
-	0x27, 0xda, 0xf8, 0x29, 0x70, 0x43, 0x8c, 0x52, 0xed, 0x8d, 0x72, 0xed, 0x65, 0x7c, 0xa2, 0x2d,
-	0xf6, 0x89, 0x76, 0xad, 0x5c, 0xfb, 0x2f, 0x9a, 0x0c, 0x01, 0x62, 0x44, 0x80, 0x21, 0x73, 0x31,
-	0xd2, 0xeb, 0x7b, 0x6a, 0x9c, 0xdb, 0xbd, 0x5a, 0x2f, 0xac, 0xb3, 0x05, 0xd1, 0xb1, 0xc7, 0xc2,
-	0xb9, 0xbd, 0xc4, 0x6c, 0xbc, 0x84, 0xed, 0xc2, 0x31, 0xd9, 0x01, 0xf5, 0x03, 0xce, 0x45, 0x7f,
-	0x92, 0x25, 0x69, 0xc2, 0xc6, 0x8c, 0x8e, 0xa7, 0xc8, 0x9b, 0xb3, 0x69, 0xa7, 0x9b, 0x8e, 0xf2,
-	0xa2, 0x62, 0x9e, 0x41, 0xab, 0x50, 0x80, 0x30, 0xf6, 0x73, 0x68, 0x88, 0x50, 0x14, 0x33, 0xa9,
-	0x65, 0xce, 0x5e, 0x80, 0xcd, 0x6f, 0xca, 0xe2, 0x49, 0x14, 0xed, 0xbc, 0xb0, 0x8e, 0x22, 0xb7,
-	0x8e, 0x9a, 0xb7, 0xce, 0x13, 0xa8, 0x8b, 0x66, 0xae, 0xd1, 0xf7, 0x0c, 0x9a, 0x64, 0x89, 0x36,
-	0xac, 0xd1, 0xef, 0x0c, 0x4a, 0xde, 0xe6, 0xda, 0x55, 0xe3, 0x17, 0x7e, 0xf8, 0x8f, 0x0b, 0x5f,
-	0x63, 0x4f, 0x8e, 0x7e, 0xab, 0xd0, 0x14, 0x32, 0xe7, 0x5c, 0xb8, 0x87, 0xe1, 0xcc, 0x1d, 0x20,
-	0x99, 0x83, 0x96, 0x9b, 0x7c, 0xe4, 0x40, 0x56, 0xa1, 0x6c, 0xd6, 0x1a, 0x0f, 0xd6, 0x40, 0x8a,
-	0xd1, 0xb2, 0xfb, 0xe5, 0xc7, 0xaf, 0xaf, 0x8a, 0x66, 0x36, 0xb2, 0x1f, 0x44, 0xa7, 0x72, 0x48,
-	0xa6, 0xb0, 0xb5, 0x34, 0xfe, 0xc8, 0xbe, 0x8c, 0x6e, 0x75, 0x8a, 0x1a, 0xf7, 0x4b, 0x71, 0x42,
-	0xb4, 0xc5, 0x45, 0xb7, 0x89, 0x96, 0x89, 0xb6, 0x2f, 0x5d, 0xe7, 0x33, 0xb9, 0x04, 0x2d, 0x37,
-	0xff, 0xe4, 0x37, 0x96, 0x8d, 0x52, 0xf9, 0x8d, 0xe5, 0xc3, 0x54, 0x88, 0x1f, 0x16, 0xc4, 0x67,
-	0xa0, 0xe5, 0xde, 0x86, 0x5c, 0x5c, 0xf6, 0x7e, 0xe5, 0xe2, 0xd2, 0x87, 0x66, 0xee, 0x70, 0x71,
-	0x20, 0x8b, 0xcf, 0xdd, 0xaf, 0x71, 0xa3, 0x3e, 0xfe, 0x13, 0x00, 0x00, 0xff, 0xff, 0x29, 0x0d,
-	0xbe, 0xbc, 0xa5, 0x07, 0x00, 0x00,
+	// 1080 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xb4, 0x56, 0x5f, 0x6f, 0xdb, 0x54,
+	0x14, 0x57, 0x92, 0xad, 0x69, 0x4f, 0x96, 0x2c, 0x9c, 0xe5, 0x8f, 0x65, 0xc6, 0x36, 0x5d, 0xa1,
+	0xad, 0x4d, 0x47, 0x22, 0x75, 0x20, 0xa6, 0xc2, 0xd0, 0x34, 0xd8, 0x78, 0x01, 0x54, 0xdc, 0x09,
+	0x81, 0x40, 0x9a, 0xdc, 0xe6, 0xae, 0x58, 0xb4, 0x71, 0x70, 0x9c, 0x8a, 0x50, 0xf5, 0x81, 0x49,
+	0x88, 0x0f, 0xc0, 0x37, 0xe0, 0x5b, 0xf0, 0x8c, 0xf8, 0x04, 0x3c, 0xf2, 0xca, 0x07, 0xc1, 0xbe,
+	0x3e, 0x37, 0xb6, 0xaf, 0xaf, 0x63, 0x77, 0xd3, 0x1e, 0x22, 0xd9, 0x37, 0xbf, 0x7b, 0x7e, 0xbf,
+	0xf3, 0xc7, 0xe7, 0x1c, 0x30, 0xec, 0xa9, 0x33, 0x7a, 0xce, 0x6d, 0x7f, 0xee, 0xf1, 0x77, 0x7c,
+	0xf7, 0xe8, 0xe8, 0x98, 0x0f, 0xa7, 0x9e, 0xeb, 0xbb, 0x88, 0x74, 0xfa, 0x2c, 0x3a, 0x7d, 0x16,
+	0x00, 0xcd, 0xeb, 0x47, 0xae, 0x1b, 0x3c, 0x8f, 0xc2, 0x4b, 0xf6, 0x64, 0xe2, 0xfa, 0xb6, 0xef,
+	0xb8, 0x93, 0x59, 0x74, 0xc3, 0xbc, 0x49, 0xff, 0x8a, 0xb7, 0x83, 0xf9, 0xf3, 0x91, 0xef, 0x9c,
+	0xf0, 0x99, 0x6f, 0x9f, 0x4c, 0x23, 0x00, 0xfb, 0xab, 0x02, 0x37, 0x3e, 0xe5, 0xfe, 0x93, 0xc8,
+	0xf0, 0xec, 0xd1, 0x62, 0xcf, 0x73, 0xa7, 0xdc, 0xf3, 0x1d, 0x3e, 0xb3, 0xf8, 0x8f, 0xf3, 0x00,
+	0x8b, 0x07, 0x00, 0xd3, 0xe5, 0xa1, 0x51, 0xb9, 0x55, 0xdb, 0x6c, 0xec, 0x3c, 0x1a, 0x66, 0xa5,
+	0x0c, 0x57, 0xdb, 0x19, 0xc6, 0x27, 0x8f, 0x27, 0xbe, 0xb7, 0xb0, 0x12, 0x56, 0xcd, 0x07, 0x70,
+	0x55, 0xf9, 0x1b, 0xdb, 0x50, 0xfb, 0x81, 0x2f, 0x02, 0xbe, 0xca, 0xe6, 0x86, 0x15, 0x3e, 0x62,
+	0x07, 0x2e, 0x9f, 0xda, 0xc7, 0x73, 0x6e, 0x54, 0xc5, 0x59, 0xf4, 0xb2, 0x5b, 0xbd, 0x5f, 0x61,
+	0x0f, 0xe0, 0x66, 0x2e, 0xf9, 0x6c, 0x1a, 0x84, 0x83, 0xa3, 0x09, 0xeb, 0x24, 0x39, 0xf2, 0x61,
+	0xc3, 0x5a, 0xbe, 0xb3, 0x6f, 0xa0, 0xff, 0xb1, 0x17, 0xbc, 0xf0, 0xa7, 0xc2, 0x19, 0x6b, 0x1e,
+	0xfc, 0xc8, 0xf9, 0x8f, 0x00, 0xfc, 0xe5, 0xa1, 0x10, 0xd3, 0xd8, 0xb9, 0xa1, 0x73, 0x3e, 0x71,
+	0x35, 0x71, 0x83, 0x0d, 0xc0, 0xc8, 0x9a, 0x26, 0x49, 0x2d, 0xa8, 0x3a, 0x63, 0x72, 0x30, 0x78,
+	0x62, 0x77, 0xa0, 0x6b, 0x71, 0x7b, 0x9c, 0x15, 0xa1, 0x02, 0xbf, 0x86, 0x9e, 0x0a, 0x24, 0x93,
+	0xaf, 0x2a, 0x77, 0x0b, 0xfa, 0x9f, 0xf0, 0x63, 0xae, 0x8b, 0x84, 0x2a, 0xc2, 0x04, 0x23, 0x0b,
+	0x8d, 0x64, 0xb0, 0x7f, 0x6b, 0xd0, 0xdf, 0xe7, 0xb6, 0x77, 0xf8, 0x7d, 0xd6, 0x0e, 0xc2, 0xa5,
+	0x89, 0x7d, 0xc2, 0xc9, 0x92, 0x78, 0x46, 0x03, 0xea, 0x7c, 0x62, 0x1f, 0x1c, 0xf3, 0xb1, 0xc8,
+	0xed, 0xba, 0x25, 0x5f, 0x03, 0x87, 0xae, 0x1c, 0x8a, 0xf8, 0x8d, 0xf7, 0x7d, 0xdb, 0xf3, 0x8d,
+	0x9a, 0x70, 0xc9, 0x1c, 0x46, 0x75, 0x3d, 0x94, 0x75, 0x3d, 0x7c, 0x2a, 0xeb, 0xda, 0x4a, 0xe1,
+	0x71, 0x17, 0x80, 0xde, 0x1f, 0x4f, 0xc6, 0xc6, 0xa5, 0xc2, 0xdb, 0x09, 0x74, 0xc8, 0xcd, 0x7f,
+	0x9a, 0x3a, 0x41, 0x85, 0x44, 0xdc, 0x97, 0x8b, 0xb9, 0x93, 0xf8, 0x90, 0x9b, 0xde, 0x43, 0xee,
+	0xb5, 0x62, 0xee, 0x18, 0x8d, 0xdf, 0xa6, 0x3e, 0xba, 0xba, 0xf8, 0xe8, 0x3e, 0xd0, 0x25, 0x32,
+	0x27, 0xcc, 0xaf, 0xf3, 0x6b, 0xfb, 0x0e, 0x8c, 0x2c, 0x2b, 0x15, 0xe0, 0x43, 0x68, 0xc4, 0xe5,
+	0x24, 0xbb, 0x45, 0x51, 0x05, 0x26, 0xaf, 0xb0, 0xbf, 0xab, 0x00, 0xf1, 0x7f, 0x6a, 0xd9, 0x2d,
+	0xcb, 0xa7, 0xaa, 0x2f, 0x9f, 0x5a, 0xba, 0x7c, 0xde, 0x85, 0x3a, 0x25, 0xb4, 0x44, 0xee, 0x25,
+	0x34, 0xbc, 0x45, 0xa9, 0x28, 0x91, 0x73, 0x09, 0xc5, 0x2f, 0x52, 0x29, 0x5b, 0x13, 0x9e, 0x0f,
+	0x57, 0x7b, 0xfe, 0x3a, 0xb3, 0xf4, 0x39, 0x74, 0xa2, 0xce, 0x43, 0x6d, 0x51, 0x7e, 0x7f, 0xef,
+	0x41, 0x9d, 0x34, 0x51, 0x7f, 0x78, 0x53, 0xa7, 0x51, 0x5e, 0x92, 0xd8, 0xb0, 0x39, 0x29, 0xe6,
+	0x72, 0xba, 0xd8, 0xdb, 0x80, 0x61, 0x73, 0x52, 0x58, 0x55, 0xd4, 0x67, 0x70, 0x2d, 0x85, 0x22,
+	0x63, 0x2f, 0x29, 0xee, 0x36, 0x74, 0xa2, 0x5e, 0x54, 0xc0, 0xda, 0x87, 0xae, 0x82, 0xa3, 0x86,
+	0x35, 0x80, 0x4e, 0x54, 0xd2, 0x8a, 0x01, 0x4d, 0xb3, 0x62, 0x7b, 0xd0, 0x55, 0xb0, 0x24, 0xfe,
+	0x7d, 0x65, 0xc4, 0x14, 0xa8, 0x8f, 0xe7, 0x8f, 0x03, 0x75, 0x3a, 0x7c, 0xc5, 0x72, 0xbf, 0x05,
+	0x8d, 0x31, 0x9f, 0x1d, 0x7a, 0xce, 0x34, 0x5c, 0x02, 0x44, 0xc9, 0x6f, 0x58, 0xc9, 0x23, 0xf6,
+	0xa5, 0x4c, 0x23, 0x95, 0xd6, 0x42, 0x7a, 0x7a, 0x1f, 0xd6, 0xa9, 0xf6, 0x16, 0x14, 0xfa, 0xeb,
+	0x3a, 0xf1, 0xcb, 0x6b, 0x4b, 0x34, 0xbb, 0x0b, 0x3d, 0xd5, 0x24, 0x05, 0x44, 0x17, 0xbd, 0xad,
+	0x28, 0xf1, 0x2a, 0xbd, 0x3e, 0xd0, 0x9d, 0x34, 0x94, 0xcc, 0x06, 0x52, 0xf7, 0x2e, 0x24, 0x55,
+	0x3e, 0xb1, 0x6d, 0x99, 0xff, 0x32, 0xf4, 0x06, 0xf4, 0x54, 0x30, 0x55, 0xcb, 0xb6, 0xac, 0x80,
+	0x32, 0x66, 0xbe, 0x82, 0x9e, 0x0a, 0x26, 0x3f, 0x3e, 0xd4, 0x2c, 0x56, 0xab, 0x3d, 0x49, 0xe0,
+	0xd9, 0xc3, 0x38, 0x0a, 0xda, 0x99, 0xaa, 0xd4, 0x42, 0x35, 0x53, 0x0b, 0x3b, 0x7f, 0x36, 0xa1,
+	0x43, 0x75, 0x17, 0xb5, 0xa4, 0x7d, 0xee, 0x9d, 0x3a, 0x87, 0x1c, 0xff, 0xa8, 0x80, 0x91, 0xd8,
+	0xa7, 0x9e, 0xb8, 0x5e, 0xdc, 0x88, 0x70, 0xe7, 0xe2, 0xab, 0x9f, 0x79, 0xef, 0x42, 0x77, 0x28,
+	0xca, 0x6f, 0xbd, 0xf8, 0xe7, 0xbf, 0xdf, 0xab, 0x7d, 0xec, 0xca, 0x65, 0xd8, 0xf7, 0x38, 0x97,
+	0xcf, 0x33, 0xfc, 0xb5, 0x02, 0x6d, 0x75, 0xb5, 0xc2, 0x6d, 0x1d, 0x51, 0xce, 0x6e, 0x67, 0xde,
+	0x2d, 0x07, 0x26, 0x39, 0x3d, 0x21, 0xa7, 0xcd, 0x1a, 0xa3, 0x08, 0xed, 0x05, 0x7f, 0xee, 0x56,
+	0x06, 0xf8, 0x4b, 0x05, 0x5a, 0xe9, 0x6d, 0x0c, 0xb7, 0x74, 0x86, 0xb5, 0xab, 0x9d, 0x39, 0x28,
+	0x03, 0x25, 0x05, 0x86, 0x50, 0x80, 0xd8, 0x4e, 0x28, 0x18, 0x9d, 0x39, 0xe3, 0x73, 0xfc, 0x2d,
+	0x88, 0x85, 0xba, 0x8c, 0xe9, 0x63, 0x91, 0xb3, 0xdd, 0xe9, 0x63, 0x91, 0xbb, 0xdf, 0x91, 0x92,
+	0x41, 0x56, 0xc9, 0x8b, 0x40, 0x89, 0xba, 0x1c, 0xe8, 0x95, 0xe4, 0x2c, 0x2e, 0x7a, 0x25, 0x79,
+	0xfb, 0x06, 0xbb, 0x26, 0x94, 0x34, 0x31, 0x99, 0x15, 0x5c, 0x40, 0x33, 0x35, 0xab, 0x70, 0x33,
+	0x3f, 0xd3, 0xe9, 0x86, 0x6f, 0x6e, 0x95, 0x40, 0xa6, 0xa9, 0xd9, 0xba, 0xac, 0xc9, 0xb0, 0x1a,
+	0xe6, 0xd0, 0x48, 0xcc, 0x35, 0xbc, 0x9d, 0x97, 0x5e, 0x85, 0xf6, 0x4e, 0x21, 0x8e, 0x48, 0xbb,
+	0x82, 0xf4, 0x2a, 0x36, 0x25, 0x69, 0x14, 0xf6, 0x33, 0x68, 0xa6, 0x06, 0x9b, 0xde, 0x63, 0xdd,
+	0x8c, 0xd4, 0x7b, 0xac, 0x9f, 0x92, 0x44, 0x3e, 0x50, 0xc8, 0x4f, 0xa1, 0x99, 0x1a, 0x88, 0x7a,
+	0x72, 0xdd, 0x7c, 0xd5, 0x93, 0x6b, 0xa7, 0x2b, 0x6b, 0x0b, 0x72, 0xc0, 0x65, 0xb8, 0xf1, 0x1c,
+	0x5a, 0xe9, 0xc1, 0x83, 0x2b, 0xb2, 0xa7, 0xb4, 0x6a, 0xfd, 0x87, 0xa7, 0x9f, 0x63, 0xac, 0x23,
+	0xa8, 0x5b, 0x6c, 0x63, 0x24, 0x87, 0x5e, 0x98, 0xea, 0x33, 0xb8, 0x92, 0x1c, 0x4f, 0x98, 0x9b,
+	0x43, 0x95, 0x7a, 0xb3, 0x18, 0x98, 0xf9, 0xe2, 0x25, 0xf1, 0xe8, 0x2c, 0x6c, 0xee, 0xe7, 0xa2,
+	0xeb, 0xa4, 0xa7, 0x13, 0xae, 0x48, 0x64, 0x29, 0xe7, 0x73, 0x86, 0x5d, 0xfc, 0xad, 0xab, 0x1a,
+	0x7e, 0x86, 0x56, 0x7a, 0xb2, 0xe1, 0x8a, 0x74, 0x96, 0x92, 0xa0, 0x1f, 0x94, 0xec, 0x0d, 0x21,
+	0xa1, 0x81, 0x71, 0xfc, 0x0f, 0xd6, 0xc4, 0x26, 0x7e, 0xef, 0xff, 0x00, 0x00, 0x00, 0xff, 0xff,
+	0xc6, 0xe3, 0x4f, 0xc8, 0x2d, 0x11, 0x00, 0x00,
 }

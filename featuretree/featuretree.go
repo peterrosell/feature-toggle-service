@@ -14,16 +14,16 @@ type Node struct {
 	nodes    NodeMap
 }
 
-type FeatureTree struct {
+type ToggleRuleTree struct {
 	root          Node
 	propertyNames []string
 }
 
 type Properties map[string]string
 
-type Feature struct {
-	name       string
-	properties Properties
+type ToggleRule struct {
+	Name       string
+	Properties Properties
 }
 
 func NewNode(key string) *Node {
@@ -47,11 +47,11 @@ func (node *Node) getOrCreateNode(value string) *Node {
 	return nextNode
 }
 
-func (node *Node) addFeature(propertyNames []string, feature Feature) {
+func (node *Node) addFeature(propertyNames []string, rule ToggleRule) {
 	if len(propertyNames) == 0 {
-		node.features = append(node.features, feature.name)
+		node.features = append(node.features, rule.Name)
 	} else {
-		val, ok := feature.properties[propertyNames[0]]
+		val, ok := rule.Properties[propertyNames[0]]
 		nextNode := &Node{}
 		if ok {
 			nextNode = node.getOrCreateNode(val)
@@ -59,12 +59,12 @@ func (node *Node) addFeature(propertyNames []string, feature Feature) {
 			// feature does not have a property on this level, add to wildcard
 			nextNode = node.getOrCreateNode("*")
 		}
-		(nextNode).addFeature(propertyNames[1:], feature)
+		(nextNode).addFeature(propertyNames[1:], rule)
 	}
 }
 
-func (tree *FeatureTree) addFeature(feature Feature) {
-	tree.root.addFeature(tree.propertyNames, feature)
+func (tree *ToggleRuleTree) AddFeature(rule ToggleRule) {
+	tree.root.addFeature(tree.propertyNames, rule)
 }
 
 func (node *Node) findFeature(propertyNames []string, properties Properties) []string {
@@ -91,12 +91,12 @@ func (node *Node) findFeature(propertyNames []string, properties Properties) []s
 	}
 }
 
-func (tree *FeatureTree) findFeatures(properties Properties) []string {
+func (tree *ToggleRuleTree) FindFeatures(properties Properties) []string {
 
 	return tree.root.findFeature(tree.propertyNames, properties)
 }
 
-func (tree *FeatureTree) String() string {
+func (tree *ToggleRuleTree) String() string {
 	var buffer bytes.Buffer
 	buffer.WriteString("propertyNames: [")
 	for _, name := range tree.propertyNames {
@@ -107,7 +107,7 @@ func (tree *FeatureTree) String() string {
 	return buffer.String()
 }
 
-func NewFeatureTree(propertyNames []string) *FeatureTree {
-	tree := FeatureTree{Node{}, propertyNames}
+func NewFeatureTree(propertyNames []string) *ToggleRuleTree {
+	tree := ToggleRuleTree{Node{}, propertyNames}
 	return &tree
 }

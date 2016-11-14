@@ -1,10 +1,12 @@
 hash: 8e18e64076fe582de81e5aea63fe8bf6ab34a5f3bce4925201df530462a30d63
-updated: 2016-11-11T21:10:11.733094942+01:00
+updated: 2016-11-13T21:37:02.18340521+01:00
 imports:
 - name: github.com/lib/pq
   version: d8eeeb8bae8896dd8e1b7e514ab0d396c4f12a1b
   subpackages:
   - oid
+- name: github.com/pkg/errors
+  version: 248dadf4e9068a0b3e79f02ed0a610d935de5302
 - name: github.com/satori/go.uuid
   version: b061729afc07e77a8aa4fad0a2fd840958f1942a
 testImports:
@@ -20,3 +22,4 @@ testImports:
   version: 976c720a22c8eb4eb6a0b4348ad85ad12491a506
   subpackages:
   - assert
+  - require

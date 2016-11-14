@@ -21,11 +21,11 @@ gen-swagger:
 
 build-grpc-server: gen-rpc
 	go build -o grpc-server \
-	./grpc/main.go
+	./main/grpc-server.go
 
 build-gw-server: gen-gw
 	go build -o gw-server \
-	./gw/main.go
+	./main/gw-server.go
 
 
 build-all: gen-rpc gen-gw gen-swagger build-grpc-server build-gw-server
