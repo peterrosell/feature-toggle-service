@@ -19,6 +19,7 @@ func (s *FeatureToggleServiceServer) GetFeaturesForProperties(ctx context.Contex
 	if s.tree == nil {
 		return nil, errors.New("Feature toggle service not initialized.")
 	}
+	fmt.Printf("getfeat: %v\n", req)
 	return &api.GetFeaturesByPropertiesResponse{Features:s.tree.FindFeatures(req.Properties)}, nil
 }
 
@@ -26,7 +27,7 @@ func (s *FeatureToggleServiceServer) CreateToggleRule(ctx context.Context, req *
 	fmt.Printf("CreateToggleRule: %v\n", req.ToggleRule)
 
 	feature, err := s.fs.ReadFeatureByName(req.ToggleRule.Name)
-	if err != nil {
+	if feature == nil {
 		return nil, errors.New( "Unknown feature")
 	}
 
@@ -194,9 +195,15 @@ func newFeatureToggleServiceServer() *FeatureToggleServiceServer {
 		tree := featuretree.NewFeatureTree(propertyNames)
 
 		for _, rule := range *toggleRules {
-			tree.AddFeature(rule)
+			err := tree.AddFeature(rule)
+			if err != nil {
+				fmt.Printf("%s\n", err.Error())
+			} else {
+				fmt.Printf("Added rule: %v\n", rule)
+			}
 		}
 		s.tree = tree
+		fmt.Print(s.tree.String())
 	} else {
 		fmt.Printf("Failed to init feature toggle service, %v\n", err)
 	}

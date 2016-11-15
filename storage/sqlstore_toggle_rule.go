@@ -21,7 +21,7 @@ const (
 	SEARCH_TOGGLE_RULE_NAME_PART_SQL = "feature.name = $1 "
 	SEARCH_TOGGLE_RULE_FILTER_PART_SQL = "%s(p%d.property=$%d AND p%d.value = $%d) "
 	SEARCH_TOGGLE_RULE_INNER_JOIN_SQL = "INNER JOIN toggle_rule AS p%d ON toggle_rule.featureid = p%d.featureid "
-	SEARCH_ROGGLE_RULE_ENABLED_SQL = "SELECT DISTINCT feature.name, tr.property, tr.value FROM toggle_rule tr JOIN feature ON feature.id = tr.featureid WHERE feature.enabled = true and tr.enabled = true and tr.expires < $1"
+	SEARCH_ROGGLE_RULE_ENABLED_SQL = "SELECT DISTINCT tr.id, feature.name, tr.property, tr.value FROM toggle_rule tr JOIN feature ON feature.id = tr.featureid WHERE feature.enabled = true and tr.enabled = true and tr.expires < $1"
 )
 
 func (fs *FeatureToggleStoreImpl) CreateToggleRule(toggleRule ToggleRule) (*string, error) {
@@ -226,19 +226,20 @@ func rowsToToggleRule(rows *sql.Rows) ([]ToggleRule, error) {
 func rowsToTreeToggleRule(rows *sql.Rows) ([]featuretree.ToggleRule, error) {
 	ruleMap := make(map[string]featuretree.ToggleRule)
 	for rows.Next() {
+		var id string
 		var featurename string
 		var property string
 		var value string
-		err := rows.Scan(&featurename, &property, &value)
+		err := rows.Scan(&id, &featurename, &property, &value)
 		if ( err != nil) {
 			return nil, errors.New(fmt.Sprintf("Failed to scan row, %v", err))
 		}
-		rule, ok := ruleMap[featurename]
+		rule, ok := ruleMap[id]
 		if !ok {
 			props := make(featuretree.Properties)
 			rule = featuretree.ToggleRule{Name:featurename, Properties:props}
 
-			ruleMap[featurename] = rule
+			ruleMap[id] = rule
 		}
 		rule.Properties[property] = value
 	}

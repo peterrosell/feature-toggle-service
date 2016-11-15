@@ -16,7 +16,7 @@ func TestFeatureToggleStoreImpl_CreateFeature(t *testing.T) {
 	}
 	defer fs.Close()
 
-	feature := NewFeature(randomSufix("Name-"), true, "f description")
+	feature := NewFeature(randomSufix("Feature-"), true, "f description")
 	featureId, err := fs.CreateFeature(*feature);
 
 	require.NotNil(t, featureId, "Should get featureId, %v", err)
@@ -31,16 +31,52 @@ func TestFeatureToggleStoreImpl_ReadFeature(t *testing.T) {
 	}
 	defer fs.Close()
 
-	feature := NewFeature(randomSufix("Name-"), true, "f description")
+	feature := NewFeature(randomSufix("Feature-"), true, "f description")
 	featureId, err := fs.CreateFeature(*feature);
 
 	require.NotNil(t, featureId, "Should get featureId, %v", err)
 
 	f, err := fs.ReadFeature(*featureId)
-	require.NotNil(t, *f, "Shoudl get feature from featureId %s, err", featureId, err)
+	require.NotNil(t, *f, "Should get feature from featureId %s, err", featureId, err)
 	assert.Equal(t, feature.Name, f.Name, "Should get feature name, %v", err)
 	assert.Equal(t, feature.Description, f.Description, "Should get feature description, %v", err)
 	assert.Equal(t, feature.Enabled, f.Enabled, "Should get feature enabled, %v", err)
+}
+
+func TestFeatureToggleStoreImpl_ReadFeatureByName(t *testing.T) {
+	var fs FeatureToggleStore = NewFeatureToggleStoreImpl()
+
+	err := fs.Open()
+	if err != nil {
+		panic(fmt.Sprintf("Failed to open database, %v", err))
+	}
+	defer fs.Close()
+
+	featureName := randomSufix("Feature-")
+	feature := NewFeature(featureName, true, "f description")
+	featureId, err := fs.CreateFeature(*feature);
+
+	require.NotNil(t, featureId, "Should get featureId, %v", err)
+
+	f, err := fs.ReadFeatureByName(featureName)
+	require.NotNil(t, *f, "Should get feature from featureId %s, err", featureId, err)
+	assert.Equal(t, feature.Name, f.Name, "Should get feature name, %v", err)
+	assert.Equal(t, feature.Description, f.Description, "Should get feature description, %v", err)
+	assert.Equal(t, feature.Enabled, f.Enabled, "Should get feature enabled, %v", err)
+}
+
+func TestFeatureToggleStoreImpl_ReadFeatureByName__unknown(t *testing.T) {
+	var fs FeatureToggleStore = NewFeatureToggleStoreImpl()
+
+	err := fs.Open()
+	if err != nil {
+		panic(fmt.Sprintf("Failed to open database, %v", err))
+	}
+	defer fs.Close()
+
+	f, err := fs.ReadFeatureByName("unknown feature")
+	assert.Nil(t, f, "Should not get a feature, %v", f)
+	assert.Nil(t, err, "Should not get an error, %v", err)
 }
 
 func TestFeatureToggleStoreImpl_DeleteFeature(t *testing.T) {
@@ -52,7 +88,7 @@ func TestFeatureToggleStoreImpl_DeleteFeature(t *testing.T) {
 	}
 	defer fs.Close()
 
-	feature := NewFeature(randomSufix("Name-"), true, "f description")
+	feature := NewFeature(randomSufix("Feature-"), true, "f description")
 	featureId, err := fs.CreateFeature(*feature);
 
 	require.NotNil(t, featureId, "Should get featureId, %v", err)

@@ -20,6 +20,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
+	"fmt"
 )
 
 var _ codes.Code
@@ -35,10 +36,17 @@ func request_FeatureToggleService_GetFeaturesForProperties_0(ctx context.Context
 	var protoReq GetFeaturesByPropertiesRequest
 	var metadata runtime.ServerMetadata
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_FeatureToggleService_GetFeaturesForProperties_0); err != nil {
-		return nil, metadata, grpc.Errorf(codes.InvalidArgument, "%v", err)
+
+	//if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_FeatureToggleService_GetFeaturesForProperties_0); err != nil {
+	//	return nil, metadata, grpc.Errorf(codes.InvalidArgument, "%v", err)
+	//}
+
+	protoReq.Properties = make(map[string]string)
+	for k, v := range req.URL.Query() {
+		protoReq.Properties[k] = v[0]
 	}
 
+	fmt.Printf("protoReq: %v\n", protoReq)
 	msg, err := client.GetFeaturesForProperties(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 

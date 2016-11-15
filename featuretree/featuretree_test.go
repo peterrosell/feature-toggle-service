@@ -199,6 +199,7 @@ func TestAddFeature_3_props__3_feature_prop(t *testing.T) {
 	feature2 := ToggleRule{featureName2, props2}
 	tree.AddFeature(feature2)
 
+	print(tree.String())
 	assert.Equal(t, propertyNames, tree.propertyNames, "should find value 'username' and 'usertype' on tree")
 
 	require.NotNil(t, tree.root.nodes["*"], "should have node on value '*'")
