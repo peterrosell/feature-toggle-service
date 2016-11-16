@@ -10,8 +10,9 @@ const (
 	INSERT_PROPERTY_SQL = "INSERT INTO property(name, description) values ($1,$2)"
 	READ_PROPERTY_SQL = "SELECT * FROM property WHERE name = $1"
 	DELETE_PROPERTY_SQL = "DELETE FROM property WHERE name = $1"
-
+	READ_ALL_PROPERTY_NAMES_SQL = "SELECT name FROM property"
 )
+
 func (fs *FeatureToggleStoreImpl) CreateProperty(property Property) (*string, error) {
 	stmt, err := fs.db.Prepare(INSERT_PROPERTY_SQL)
 	if ( err != nil) {
@@ -46,6 +47,18 @@ func (fs *FeatureToggleStoreImpl) ReadProperty(name string) (*Property, error) {
 		return &properties[0], nil
 	}
 	return nil, nil
+}
+
+func (fs *FeatureToggleStoreImpl) ReadAllPropertyNames() (*[]string, error) {
+	rows, err := fs.db.Query(READ_ALL_PROPERTY_NAMES_SQL)
+	if ( err != nil) {
+		return nil, errors.New(fmt.Sprintf("ReadAllPropertyNames: Failed to create prepared statement, %v", err))
+	}
+	names, err := rowsToPropertyNames(rows)
+	if err != nil {
+		return nil, errors.New(fmt.Sprintf("ReadAllPropertyNames: Failed to get row data, %v", err))
+	}
+	return &names, nil
 }
 
 func (fs *FeatureToggleStoreImpl) DeleteProperty(name string) (*bool, error) {
@@ -85,5 +98,18 @@ func rowsToProperty(rows *sql.Rows) ([]Property, error) {
 		properties = append(properties, feature)
 	}
 	return properties, nil
+}
+
+func rowsToPropertyNames(rows *sql.Rows) ([]string, error) {
+	names := []string{}
+	for rows.Next() {
+		var name string
+		err := rows.Scan(&name)
+		if ( err != nil) {
+			return nil, errors.New(fmt.Sprintf("Property: Failed to scan row, %v", err))
+		}
+		names = append(names, name)
+	}
+	return names, nil
 }
 

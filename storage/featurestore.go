@@ -42,8 +42,10 @@ type FeatureToggleStore interface {
 
 	CreateProperty(property Property) (*string, error)
 	ReadProperty(name string) (*Property, error)
+	ReadAllPropertyNames() (*[]string, error)
 	DeleteProperty(name string) (*bool, error)
 	SearchProperty(name string) (*[]Property, error)
+
 
 	CreateToggleRule(toggleRule ToggleRule) (*string, error)
 	ReadToggleRule(id string) (*ToggleRule, error)

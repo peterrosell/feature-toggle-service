@@ -11,15 +11,16 @@ var propertyNamesTest = []struct {
 	names        []string // input
 	expected string // expected result
 }{
-	{[]string{"prop 1"}, "propertyNames: [prop 1,]"},
-	{[]string{"prop 1","prop 2"}, "propertyNames: [prop 1,prop 2,]"},
-	{[]string{"prop 1","prop 2", "prop båt"}, "propertyNames: [prop 1,prop 2,prop båt,]"},
+	{[]string{"prop 1"}, "propertyNames: [prop 1,]\n"},
+	{[]string{"prop 1","prop 2"}, "propertyNames: [prop 1,prop 2,]\n"},
+	{[]string{"prop 1","prop 2", "prop båt"}, "propertyNames: [prop 1,prop 2,prop båt,]\n"},
 }
 
 func TestNewFeatureTree(t *testing.T) {
 
 	for _, tt := range propertyNamesTest {
 		actual := NewFeatureTree(tt.names)
+		fmt.Print(actual.String())
 		assert.Equal(t, tt.expected, actual.String(), "should be equal")
 	}
 }

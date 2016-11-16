@@ -188,11 +188,12 @@ func newFeatureToggleServiceServer() *FeatureToggleServiceServer {
 
 	toggleRules, err := s.fs.GetEnabledToggleRules()
 	if( toggleRules != nil) {
-		//properties := s.fs.ReadAllPropertyNames();
-		propertyNames := make([]string,2)
-		propertyNames[0] = "usertype"
-		propertyNames[1] = "userid"
-		tree := featuretree.NewFeatureTree(propertyNames)
+		propertyNames, err := s.fs.ReadAllPropertyNames();
+		if err != nil {
+			fmt.Printf("Failed to read all properties, %v\n", err)
+			panic(err.Error())
+		}
+		tree := featuretree.NewFeatureTree(*propertyNames)
 
 		for _, rule := range *toggleRules {
 			err := tree.AddFeature(rule)
@@ -206,6 +207,7 @@ func newFeatureToggleServiceServer() *FeatureToggleServiceServer {
 		fmt.Print(s.tree.String())
 	} else {
 		fmt.Printf("Failed to init feature toggle service, %v\n", err)
+		panic(err.Error())
 	}
 	return s
 }

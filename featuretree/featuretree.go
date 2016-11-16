@@ -52,7 +52,7 @@ func (node *Node) getOrCreateNode(value string) *Node {
 
 func (node *Node) addFeature(propertyNames []string, rule ToggleRule) {
 	if len(propertyNames) == 0 {
-		node.features = addToFeatureList( node.features, rule.Name)
+		node.features = addToFeatureList(node.features, rule.Name)
 	} else {
 		val, ok := rule.Properties[propertyNames[0]]
 		nextNode := &Node{}
@@ -77,7 +77,7 @@ func addToFeatureList(featureList []string, feature string) []string {
 func (tree *ToggleRuleTree) AddFeature(rule ToggleRule) error {
 	err := tree.validateToggleRule(rule)
 	if err != nil {
-		return errors.New( "Ignoring feature. " + err.Error())
+		return errors.New("Ignoring feature. " + err.Error())
 	}
 	tree.root.addFeature(tree.propertyNames, rule)
 	return nil
@@ -132,20 +132,20 @@ func (tree *ToggleRuleTree) FindFeatures(properties Properties) []string {
 
 func (tree *ToggleRuleTree) String() string {
 	var buffer bytes.Buffer
+	tree.writeProperties(&buffer)
+	//buffer.WriteString("\n")
 	tree.root.writeToBuf(&buffer, 0)
 
 	return buffer.String()
 }
 
-func (tree *ToggleRuleTree) oldString() string {
-	var buffer bytes.Buffer
+func (tree *ToggleRuleTree) writeProperties(buffer *bytes.Buffer) {
 	buffer.WriteString("propertyNames: [")
 	for _, name := range tree.propertyNames {
 		buffer.WriteString(name)
 		buffer.WriteString(",")
 	}
 	buffer.WriteString("]")
-	return buffer.String()
 }
 
 func (node *Node) writeToBuf(buf *bytes.Buffer, indent int) {
@@ -161,8 +161,10 @@ func (node *Node) writeToBuf(buf *bytes.Buffer, indent int) {
 		}
 	} else {
 		// write features
-		addIndent(buf, indent)
-		buf.WriteString("=")
+		if indent > 0 {
+			addIndent(buf, indent)
+			buf.WriteString("=")
+		}
 		if ( len(node.features) > 0) {
 			buf.WriteString(node.features[0])
 		}
