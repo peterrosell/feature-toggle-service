@@ -24,3 +24,5 @@ _testmain.go
 *.test
 *.prof
 *.iml
+api/*.go
+api/*.swagger.json
